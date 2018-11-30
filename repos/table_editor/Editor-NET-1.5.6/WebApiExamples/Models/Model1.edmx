@@ -1,0 +1,515 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="mike_testModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="access">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="audiobooks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="author" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="duration" Type="int" Nullable="false" />
+          <Property Name="readingOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="datatables_demo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="last_name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="position" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="office" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="start_date" Type="datetime" />
+          <Property Name="age" Type="int" />
+          <Property Name="salary" Type="int" />
+          <Property Name="seq" Type="int" />
+          <Property Name="extn" Type="varchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dept">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="files">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="filename" Type="varchar" MaxLength="250" />
+          <Property Name="filesize" Type="int" />
+          <Property Name="web_path" Type="varchar" MaxLength="250" />
+          <Property Name="system_path" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="sites">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="todo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="item" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="done" Type="bit" Nullable="false" />
+          <Property Name="priority" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_access">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="access_id" />
+          </Key>
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="access_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_dept">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="dept_id" />
+          </Key>
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="dept_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="255" />
+          <Property Name="first_name" Type="varchar" MaxLength="255" />
+          <Property Name="last_name" Type="varchar" MaxLength="255" />
+          <Property Name="phone" Type="varchar" MaxLength="100" />
+          <Property Name="city" Type="varchar" MaxLength="50" />
+          <Property Name="zip" Type="varchar" MaxLength="10" />
+          <Property Name="updated_date" Type="datetime" />
+          <Property Name="registered_date" Type="datetime" />
+          <Property Name="active" Type="bit" />
+          <Property Name="comments" Type="varchar" MaxLength="255" />
+          <Property Name="manager" Type="int" />
+          <Property Name="site" Type="int" />
+          <Property Name="image" Type="int" />
+          <Property Name="shift_start" Type="time" Precision="7" />
+          <Property Name="shift_end" Type="time" Precision="7" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'mike_test.dbo.users_files' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="users_files">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="file_id" />
+          </Key>
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="file_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__user_acce__acces__38996AB5">
+          <End Role="access" Type="Self.access" Multiplicity="1" />
+          <End Role="user_access" Type="Self.user_access" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="access">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_access">
+              <PropertyRef Name="access_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user_acce__user___37A5467C">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="user_access" Type="Self.user_access" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_access">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user_dept__dept___34C8D9D1">
+          <End Role="dept" Type="Self.dept" Multiplicity="1" />
+          <End Role="user_dept" Type="Self.user_dept" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="dept">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_dept">
+              <PropertyRef Name="dept_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user_dept__user___33D4B598">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="user_dept" Type="Self.user_dept" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_dept">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users_fil__file___3B75D760">
+          <End Role="files" Type="Self.files" Multiplicity="1" />
+          <End Role="users_files" Type="Self.users_files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="files">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users_files">
+              <PropertyRef Name="file_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users_fil__user___3A81B327">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="users_files" Type="Self.users_files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users_files">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="mike_testModelStoreContainer">
+          <EntitySet Name="access" EntityType="Self.access" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="audiobooks" EntityType="Self.audiobooks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="datatables_demo" EntityType="Self.datatables_demo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dept" EntityType="Self.dept" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="files" EntityType="Self.files" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sites" EntityType="Self.sites" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="todo" EntityType="Self.todo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_access" EntityType="Self.user_access" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_dept" EntityType="Self.user_dept" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users_files" EntityType="Self.users_files" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [users_files].[user_id] AS [user_id], 
+    [users_files].[file_id] AS [file_id]
+    FROM [dbo].[users_files] AS [users_files]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__user_acce__acces__38996AB5" Association="Self.FK__user_acce__acces__38996AB5">
+            <End Role="access" EntitySet="access" />
+            <End Role="user_access" EntitySet="user_access" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user_acce__user___37A5467C" Association="Self.FK__user_acce__user___37A5467C">
+            <End Role="users" EntitySet="users" />
+            <End Role="user_access" EntitySet="user_access" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user_dept__dept___34C8D9D1" Association="Self.FK__user_dept__dept___34C8D9D1">
+            <End Role="dept" EntitySet="dept" />
+            <End Role="user_dept" EntitySet="user_dept" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user_dept__user___33D4B598" Association="Self.FK__user_dept__user___33D4B598">
+            <End Role="users" EntitySet="users" />
+            <End Role="user_dept" EntitySet="user_dept" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users_fil__file___3B75D760" Association="Self.FK__users_fil__file___3B75D760">
+            <End Role="files" EntitySet="files" />
+            <End Role="users_files" EntitySet="users_files" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users_fil__user___3A81B327" Association="Self.FK__users_fil__user___3A81B327">
+            <End Role="users" EntitySet="users" />
+            <End Role="users_files" EntitySet="users_files" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="mike_testModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="access">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="users" Relationship="Self.user_access" FromRole="access" ToRole="users" />
+        </EntityType>
+        <EntityType Name="audiobook">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="author" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="duration" Type="Int32" Nullable="false" />
+          <Property Name="readingOrder" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="datatables_demo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="first_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="last_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="position" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="office" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="start_date" Type="DateTime" Precision="3" />
+          <Property Name="age" Type="Int32" />
+          <Property Name="salary" Type="Int32" />
+          <Property Name="seq" Type="Int32" />
+          <Property Name="extn" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dept">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="users" Relationship="Self.user_dept" FromRole="dept" ToRole="users" />
+        </EntityType>
+        <EntityType Name="file">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="filename" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="filesize" Type="Int32" />
+          <Property Name="web_path" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="system_path" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="users" Relationship="Self.users_files" FromRole="files" ToRole="users" />
+        </EntityType>
+        <EntityType Name="site">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="todo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="item" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="done" Type="Boolean" Nullable="false" />
+          <Property Name="priority" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="first_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="zip" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="updated_date" Type="DateTime" Precision="3" />
+          <Property Name="registered_date" Type="DateTime" Precision="3" />
+          <Property Name="active" Type="Boolean" />
+          <Property Name="comments" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="manager" Type="Int32" />
+          <Property Name="site" Type="Int32" />
+          <Property Name="image" Type="Int32" />
+          <Property Name="shift_start" Type="Time" Precision="7" />
+          <Property Name="shift_end" Type="Time" Precision="7" />
+          <NavigationProperty Name="accesses" Relationship="Self.user_access" FromRole="users" ToRole="access" />
+          <NavigationProperty Name="depts" Relationship="Self.user_dept" FromRole="users" ToRole="dept" />
+          <NavigationProperty Name="files" Relationship="Self.users_files" FromRole="users" ToRole="files" />
+        </EntityType>
+        <Association Name="user_access">
+          <End Role="access" Type="Self.access" Multiplicity="*" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+        </Association>
+        <Association Name="user_dept">
+          <End Role="dept" Type="Self.dept" Multiplicity="*" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+        </Association>
+        <Association Name="users_files">
+          <End Role="files" Type="Self.file" Multiplicity="*" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="mike_testEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="accesses" EntityType="Self.access" />
+          <EntitySet Name="audiobooks" EntityType="Self.audiobook" />
+          <EntitySet Name="datatables_demo" EntityType="Self.datatables_demo" />
+          <EntitySet Name="depts" EntityType="Self.dept" />
+          <EntitySet Name="files" EntityType="Self.file" />
+          <EntitySet Name="sites" EntityType="Self.site" />
+          <EntitySet Name="todoes" EntityType="Self.todo" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="user_access" Association="Self.user_access">
+            <End Role="access" EntitySet="accesses" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="user_dept" Association="Self.user_dept">
+            <End Role="dept" EntitySet="depts" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="users_files" Association="Self.users_files">
+            <End Role="files" EntitySet="files" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="mike_testModelStoreContainer" CdmEntityContainer="mike_testEntities">
+          <EntitySetMapping Name="accesses">
+            <EntityTypeMapping TypeName="mike_testModel.access">
+              <MappingFragment StoreEntitySet="access">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="audiobooks">
+            <EntityTypeMapping TypeName="mike_testModel.audiobook">
+              <MappingFragment StoreEntitySet="audiobooks">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="author" ColumnName="author" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="readingOrder" ColumnName="readingOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="datatables_demo">
+            <EntityTypeMapping TypeName="mike_testModel.datatables_demo">
+              <MappingFragment StoreEntitySet="datatables_demo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="office" ColumnName="office" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+                <ScalarProperty Name="seq" ColumnName="seq" />
+                <ScalarProperty Name="extn" ColumnName="extn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="depts">
+            <EntityTypeMapping TypeName="mike_testModel.dept">
+              <MappingFragment StoreEntitySet="dept">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="files">
+            <EntityTypeMapping TypeName="mike_testModel.file">
+              <MappingFragment StoreEntitySet="files">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
+                <ScalarProperty Name="filesize" ColumnName="filesize" />
+                <ScalarProperty Name="web_path" ColumnName="web_path" />
+                <ScalarProperty Name="system_path" ColumnName="system_path" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sites">
+            <EntityTypeMapping TypeName="mike_testModel.site">
+              <MappingFragment StoreEntitySet="sites">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="todoes">
+            <EntityTypeMapping TypeName="mike_testModel.todo">
+              <MappingFragment StoreEntitySet="todo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="item" ColumnName="item" />
+                <ScalarProperty Name="done" ColumnName="done" />
+                <ScalarProperty Name="priority" ColumnName="priority" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="mike_testModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="zip" ColumnName="zip" />
+                <ScalarProperty Name="updated_date" ColumnName="updated_date" />
+                <ScalarProperty Name="registered_date" ColumnName="registered_date" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="comments" ColumnName="comments" />
+                <ScalarProperty Name="manager" ColumnName="manager" />
+                <ScalarProperty Name="site" ColumnName="site" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="shift_start" ColumnName="shift_start" />
+                <ScalarProperty Name="shift_end" ColumnName="shift_end" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="user_access" TypeName="mike_testModel.user_access" StoreEntitySet="user_access">
+            <EndProperty Name="access">
+              <ScalarProperty Name="id" ColumnName="access_id" />
+            </EndProperty>
+            <EndProperty Name="users">
+              <ScalarProperty Name="id" ColumnName="user_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="user_dept" TypeName="mike_testModel.user_dept" StoreEntitySet="user_dept">
+            <EndProperty Name="dept">
+              <ScalarProperty Name="id" ColumnName="dept_id" />
+            </EndProperty>
+            <EndProperty Name="users">
+              <ScalarProperty Name="id" ColumnName="user_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="users_files" TypeName="mike_testModel.users_files" StoreEntitySet="users_files">
+            <EndProperty Name="files">
+              <ScalarProperty Name="id" ColumnName="file_id" />
+            </EndProperty>
+            <EndProperty Name="users">
+              <ScalarProperty Name="id" ColumnName="user_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

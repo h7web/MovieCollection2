@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SalaryWSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="employees">
+    <Key>
+      <PropertyRef Name="EDW_PERS_ID" />
+    </Key>
+    <Property Name="EDW_PERS_ID" Type="float" Nullable="false" />
+    <Property Name="FULLNAME" Type="nvarchar" MaxLength="255" />
+    <Property Name="YR_OF_SVC" Type="float" />
+    <Property Name="UNIV_START_DATE" Type="date" />
+    <Property Name="LIBRARY_START_DATE" Type="date" />
+    <Property Name="UIN" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="NETID" Type="nvarchar" MaxLength="255" />
+    <Property Name="NETID_DOMAIN" Type="nvarchar" MaxLength="255" />
+    <Property Name="RACE_ALT" Type="nvarchar" MaxLength="255" />
+    <Property Name="BIRTH_DT" Type="date" />
+    <Property Name="GENDER" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SalaryWS.dbo.Open_Positions' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Open_Positions">
+          <Property Name="POSN_EMPEE_CLS_CD" Type="nvarchar" MaxLength="50" />
+          <Property Name="POSN_NBR" Type="nvarchar" MaxLength="255" />
+          <Property Name="FY_CD" Type="nvarchar" MaxLength="255" />
+          <Property Name="COA_CD" Type="nvarchar" MaxLength="255" />
+          <Property Name="ORG_CD" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_ORG_EFF_DT" Type="datetime" />
+          <Property Name="POSN_ORG_DATA_EXP_DT" Type="datetime" />
+          <Property Name="POSN_ORG_DSD" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_ORG_TITLE" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_CAMPUS_CD" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_CAMPUS_NAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_ADMIN_LEVEL_2_CD" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_ADMIN_LEVEL_2_NAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_COLL_CD" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_COLL_NAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_DEPT_CD" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_DEPT_NAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_SUB_DEPT_LEVEL_6_CD" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_SUB_DEPT_LEVEL_6_NAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_SUB_DEPT_LEVEL_7_CD" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_SUB_DEPT_LEVEL_7_NAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_ORG_STATUS_CD" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_ORG_STATUS_DESC" Type="nvarchar" MaxLength="255" />
+          <Property Name="POSN_ORG_POST_DT" Type="datetime" />
+          <Property Name="POSN_BUDG_AMT" Type="float" />
+        </EntityType>-->
+  <EntityType Name="positions">
+    <Key>
+      <PropertyRef Name="posid" />
+    </Key>
+    <Property Name="posid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EDW_PERS_ID" Type="float" />
+    <Property Name="EMPEE_CLS_CD" Type="nvarchar" MaxLength="255" />
+    <Property Name="EMPEE_CLS_LONG_DESC" Type="nvarchar" MaxLength="255" />
+    <Property Name="FAC_TENURE_TRACK_YR" Type="float" />
+    <Property Name="FAC_RANK_CD" Type="nvarchar" MaxLength="255" />
+    <Property Name="POSN_NBR" Type="nvarchar" MaxLength="255" />
+    <Property Name="JOB_DETL_TITLE" Type="nvarchar" MaxLength="255" />
+    <Property Name="JOB_DETL_EFF_DT" Type="datetime" />
+    <Property Name="JOB_DETL_DATA_EXP_DT" Type="datetime" />
+    <Property Name="ORG_CD" Type="nvarchar" MaxLength="255" />
+    <Property Name="JOB_DETL_SUB_DEPT_LEVEL_6_NAME" Type="nvarchar" MaxLength="255" />
+    <Property Name="JOB_DETL_SUB_DEPT_LEVEL_7_NAME" Type="nvarchar" MaxLength="255" />
+    <Property Name="PAPE_CIV_SVC_ID" Type="nvarchar" MaxLength="255" />
+    <Property Name="POSN_EXEMPT_IND" Type="nvarchar" MaxLength="255" />
+    <Property Name="JOB_DETL_FTE" Type="float" />
+    <Property Name="JOB_DETL_ANNL_SAL" Type="float" />
+    <Property Name="JOB_PROBN_BGN_DT" Type="nvarchar" MaxLength="255" />
+    <Property Name="JOB_PROBN_END_DT" Type="nvarchar" MaxLength="255" />
+    <Property Name="JOB_DETL_STATUS_DESC" Type="nvarchar" MaxLength="255" />
+    <Property Name="DIV" Type="nvarchar" MaxLength="255" />
+    <Property Name="EMPEE_CLS_CD_1" Type="nvarchar" MaxLength="255" />
+    <Property Name="EMPEE_CLS_HIST_EFF_DT" Type="datetime" />
+    <Property Name="EMPEE_CLS_EXP_DT" Type="datetime" />
+    <Property Name="EMPEE_CLS_CUR_INFO_IND" Type="nvarchar" MaxLength="255" />
+    <Property Name="EMPEE_CLS_SHORT_DESC" Type="nvarchar" MaxLength="255" />
+    <Property Name="EMPEE_CLS_LONG_DESC_1" Type="nvarchar" MaxLength="255" />
+    <Property Name="PAYR_ID" Type="nvarchar" MaxLength="255" />
+    <Property Name="EMPEE_CLS_PAYR_ID_DESC" Type="nvarchar" MaxLength="255" />
+    <Property Name="EMPEE_CLS_DFLT_HOURS_DAY" Type="float" />
+    <Property Name="EMPEE_CLS_DFLT_HOURS_PAY" Type="float" />
+    <Property Name="EMPEE_CLS_SAL_DESC" Type="nvarchar" MaxLength="255" />
+    <Property Name="LEAVE_CATGRY_CD" Type="nvarchar" MaxLength="255" />
+    <Property Name="LEAVE_CATGRY_DESC" Type="nvarchar" MaxLength="255" />
+    <Property Name="BNFT_CATGRY_CD" Type="nvarchar" MaxLength="255" />
+    <Property Name="BNFT_CATGRY_DESC" Type="nvarchar" MaxLength="255" />
+    <Property Name="EEO_CNTRCT_GROUP_CD" Type="nvarchar" MaxLength="255" />
+    <Property Name="EEO_CNTRCT_GROUP_DESC" Type="nvarchar" MaxLength="255" />
+    <Property Name="EEO_INSTRN_DESC" Type="nvarchar" MaxLength="255" />
+    <Property Name="WORK_PERD_CD" Type="nvarchar" MaxLength="255" />
+    <Property Name="WORK_PERD_DESC" Type="nvarchar" MaxLength="255" />
+    <Property Name="FLSA_IND" Type="nvarchar" MaxLength="255" />
+    <Property Name="EMPEE_GROUP_CD" Type="nvarchar" MaxLength="255" />
+    <Property Name="EMPEE_GROUP_DESC" Type="nvarchar" MaxLength="255" />
+    <Property Name="LEAVE_REQUEST_IND" Type="nvarchar" MaxLength="255" />
+    <Property Name="POSN_BUDG_BASIS" Type="float" />
+    <Property Name="POSN_ANNL_BASIS" Type="float" />
+    <Property Name="EMPEE_CLS_HIST_POST_DT" Type="datetime" />
+  </EntityType>
+  <EntityType Name="SWS_entries">
+    <Key>
+      <PropertyRef Name="evalId" />
+    </Key>
+    <Property Name="evalId" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="EDW_PERS_ID" Type="float" Nullable="false" />
+    <Property Name="FY" Type="int" Nullable="false" />
+    <Property Name="FRCScore" Type="nvarchar" MaxLength="50" />
+    <Property Name="FRCVariable" Type="nvarchar" MaxLength="50" />
+    <Property Name="MeritIncrease" Type="float" />
+    <Property Name="EquityAdjust" Type="float" />
+    <Property Name="P_T" Type="float" />
+    <Property Name="EvalScore" Type="float" />
+    <Property Name="Stipend" Type="float" />
+    <Property Name="Other" Type="float" />
+    <Property Name="Notes" Type="nvarchar(max)" />
+  </EntityType>
+  <Association Name="FK_positions_employees">
+    <End Role="employees" Type="Self.employees" Multiplicity="0..1" />
+    <End Role="positions" Type="Self.positions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="employees">
+        <PropertyRef Name="EDW_PERS_ID" />
+      </Principal>
+      <Dependent Role="positions">
+        <PropertyRef Name="EDW_PERS_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SWS_entries_employees">
+    <End Role="employees" Type="Self.employees" Multiplicity="1" />
+    <End Role="SWS_entries" Type="Self.SWS_entries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="employees">
+        <PropertyRef Name="EDW_PERS_ID" />
+      </Principal>
+      <Dependent Role="SWS_entries">
+        <PropertyRef Name="EDW_PERS_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SalaryWSModelStoreContainer">
+    <EntitySet Name="employees" EntityType="Self.employees" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="positions" EntityType="Self.positions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SWS_entries" EntityType="Self.SWS_entries" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_positions_employees" Association="Self.FK_positions_employees">
+      <End Role="employees" EntitySet="employees" />
+      <End Role="positions" EntitySet="positions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SWS_entries_employees" Association="Self.FK_SWS_entries_employees">
+      <End Role="employees" EntitySet="employees" />
+      <End Role="SWS_entries" EntitySet="SWS_entries" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

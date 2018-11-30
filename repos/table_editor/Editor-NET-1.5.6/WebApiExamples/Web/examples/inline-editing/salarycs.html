@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+	<title>Editor example - Simple inline editing</title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.2.0/css/buttons.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="../../css/editor.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="../resources/syntax/shCore.css">
+	<link rel="stylesheet" type="text/css" href="../resources/demo.css">
+	<style type="text/css" class="init">
+    .dt-example net {
+        width:100%;
+    }
+    div.container {
+        max-width:100%;
+        width: 99%;
+    }
+	table.display {
+        width: 100%;
+        font-size:.75em;
+	}
+    table.display th {
+        min-width: 10%;
+    }
+    table.display td, tfoot th {
+        text-align: right;
+    }
+	</style>
+	<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.min.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="../../js/dataTables.editor.min.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="../resources/syntax/shCore.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="../resources/demo.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="../resources/editor-demo.js">
+	</script>
+	<script type="text/javascript" language="javascript" class="init">
+	
+
+
+var editor; // use a global for the submit and return data rendering in the examples
+
+$(document).ready(function() {
+    editor = new $.fn.dataTable.Editor( {
+        ajax: "/api/salary/cs",
+        table: "#example",
+        fields: [  {
+            label: "Notes",
+            name: "SWS_entries.notes"
+        }
+        ]
+});
+
+	// Activate an inline edit on click of a table cell
+	$('#example').on( 'click', 'tbody td.editable', function (e) {
+		editor.inline( this );
+	} );
+
+	$('#example').DataTable( {
+		dom: "Blfrtip",
+		ajax: "/api/salary/cs",
+		"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+		deferRender: true,
+		columns: [
+			{ data: "positions.adrole" },
+			{ data: "employees.fullname" },
+			{ data: "employees.uin" },
+			{ data: "employees.netid" },
+		    { data: "positions.posn_nbr" },
+            { data: "positions.job_detl_title" },
+		    { data: "positions.org_cd" },
+		    { data: "positions.posn_exempt_ind" },
+			{ data: "employees.library_start_date" },
+			{ data: "employees.yr_of_svc" },
+            { data: "positions.job_detl_fte" },
+            {
+                data: "positions.job_detl_annl_sal", className: "sum",
+                render: function (job_detl_annl_sal) {
+                    var num = job_detl_annl_sal
+                    var str1 = '$';
+                    var num2 = num.toFixed(0);
+                    var str2 = str1.concat(num2);
+                    return str2;
+                }
+            },
+			{ data: "SWS_entries.fy" },
+			{ data: "positions.job_probn_bgn_dt" },
+			{ data: "positions.job_probn_end_dt" },
+			{ data: "SWS_entries.notes", className:"editable" }
+		],
+		"footerCallback": function (row, data, start, end, display) {
+		    var api = this.api();
+
+		    // Remove the formatting to get integer data for summation
+		    var intVal = function (i) {
+		        return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '') * 1 :
+                    typeof i === 'number' ?
+		            i : 0;
+		    };
+
+		    api.columns('.sum').every(function () {
+
+		        var total = api
+                    .cells(null, this.index())
+                    .render('display')
+                    .reduce(function (a, b) {
+                        var x = parseFloat(intVal(a)) || 0;
+                        var y = parseFloat(intVal(b)) || 0;
+                        return x + y;
+                    }, 0);
+
+		        var pagetotal = api
+                    .cells(null, this.index(), { page: 'current' })
+                    .render('display')
+                    .reduce(function (a, b) {
+                        var x = parseFloat(intVal(a)) || 0;
+                        var y = parseFloat(intVal(b)) || 0;
+                        return x + y;
+                    }, 0);
+
+		        var pagepct = api
+                    .cells(null, this.index(), { page: 'current' })
+                    .render('display')
+                    .reduce(function (a, b) {
+                        return ((pagetotal / total) * 100);
+                    }, 0);
+
+
+		        $(this.footer()).html('$' + pagetotal.toFixed(0) + '<br>' + pagepct.toFixed(2) + '% <br>($' + total.toFixed(0) + ')');
+		    });
+		}
+    });
+});
+
+
+	</script>
+</head>
+<body class="dt-example net">
+    <div class="header">
+        <p>
+            <a href="salaryal.html">Faculty</a> | 
+            <a href="salary.html">Academic Professionals</a> |
+            <a href="salarycs.html">Civil Service</a> 
+        </p>
+    </div>
+	<div class="container">
+			<h1>Salary Worksheet - Civil Service</h1>
+			<table id="example" class="display" cellspacing="0">
+				<thead>
+					<tr>
+                        <th>Designation</th>
+						<th>Full name</th>
+						<th>UIN</th>
+                        <th>NetID</th>
+                        <th>Position Number</th>
+                        <th>Job Title</th>
+						<th>Org Code</th>
+                        <th>Position Exempt</th>
+                        <th>Adjusted Service Date</th>
+                        <th>Years of Service</th>
+                        <th>FTE</th>
+                        <th>Annual Salary</th>
+                        <th>FY</th>
+                        <th>Probation Begin</th>
+                        <th>Probation End</th>
+                        <th>Comments</th>
+					</tr>
+				</thead>
+                <tfoot>
+                    <tr>
+                        <th>Page Totals<br />Percent Overall<br />(Overall Totals)</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+			</table>
+
+				</div>
+
+	<section>
+		<div class="footer">
+			<div class="gradient"></div>
+
+		</div>
+	</section>
+</body>
+</html>
