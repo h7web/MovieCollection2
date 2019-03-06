@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e5f4bd084fc240c8af8d0ccfcfcaf937" Name="Diagram1">
+        <EntityTypeShape EntityType="HermanModel.actor2movie" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HermanModel.actor" Width="1.5" PointX="5.375" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HermanModel.category" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HermanModel.character" Width="1.5" PointX="7.875" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HermanModel.director" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HermanModel.image" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HermanModel.Video" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HermanModel.top5s" Width="1.5" PointX="7.875" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="HermanModel.FK_actor2movie_actors" ManuallyRouted="false" />
+        <AssociationConnector Association="HermanModel.FK_actor2movie_characters" ManuallyRouted="false" />
+        <AssociationConnector Association="HermanModel.FK_actor2movie_Videos" ManuallyRouted="false" />
+        <AssociationConnector Association="HermanModel.FK_Videos_category" ManuallyRouted="false" />
+        <AssociationConnector Association="HermanModel.FK_Videos_directors" ManuallyRouted="false" />
+        <AssociationConnector Association="HermanModel.FK_images_Videos" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<herman_v2.Models.tmdbVideoResult>
+
+<table class="table">
+    <tr>
+        <th>
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Year
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if (item.poster_path != null)
+                {
+                    <img src="https://image.tmdb.org/t/p/w138_and_h175_face/@item.poster_path" />
+                }
+            </td>
+            <td>
+                <a href="#" onclick="GetTMDBVideoDetails('@item.id','@item.id');">@item.title</a>
+            </td>
+            <td>
+                @item.release_date
+            </td>
+            <td></td>
+        </tr>
+    }
+
+</table>

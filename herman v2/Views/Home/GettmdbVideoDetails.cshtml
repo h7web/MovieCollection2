@@ -1,0 +1,103 @@
+﻿@model herman_v2.Models.tmdbVideoDetails
+@{
+    var dir_name = "";
+    var dir_id = 0;
+
+    foreach (var item in Model.credits.crew)
+    {
+        if (item.job == "Director")
+        {
+            dir_name = item.name;
+            dir_id = item.id;
+        }
+    }
+
+    var rlist = (from r in Model.release_dates.results where r.iso_3166_1 == "US" select r).FirstOrDefault();
+    var rating = "";
+
+    foreach (var item in rlist.release_dates)
+    {
+        if (item.type == 1)
+        {
+            rating = item.certification;
+        }
+    }
+
+    var genre = (from g in Model.genres select g.name).FirstOrDefault();
+
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>tmdbVideoDetails</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.imdb_id)
+        @Html.HiddenFor(model => model.overview)
+        @Html.HiddenFor(model => model.poster_path)
+        @Html.HiddenFor(model => model.release_date)
+        @Html.HiddenFor(model => model.runtime)
+        @Html.HiddenFor(model => model.tagline)
+        @Html.HiddenFor(model => model.title)
+        @Html.Hidden("rating", rating)
+        @Html.Hidden("dir", dir_id)
+        @Html.Hidden("category", genre)
+
+        <div class="form-group">
+            @Html.Label("Plot", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.overview)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <img src="https://image.tmdb.org/t/p/w220_and_h330_face/@Model.poster_path" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Release Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.release_date)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Runtime", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.runtime)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Tag Line", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.tagline)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.title)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

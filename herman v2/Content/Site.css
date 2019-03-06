@@ -1,0 +1,147 @@
+﻿body {
+    padding-top: 80px;
+    padding-bottom: 20px;
+    background-color: #0066B3;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    color: #333333;
+    margin: 0;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.container {
+    width: 100em;
+    padding: 1em;
+    color: #FFFFFF;
+    margin: 0 auto 0 auto;
+}
+
+    .container a {
+        color: #bbbbbb;
+    }
+
+        .container a:hover {
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+#header {
+    background-color: #071D4D;
+    margin-right: .5em;
+    margin-bottom: 1em;
+    color: #FFFFFF;
+    font-family: "Trebuchet MS", Arial, Verdana;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+p, td {
+    font-size: 1em;
+    margin-top: 0;
+}
+
+.cover, .actor {
+    width: 7.75em;
+    height: 10em;
+    margin-right: .5em;
+    margin-bottom: 15px;
+}
+
+.actor {
+    margin-bottom: .5em;
+}
+
+.VideoTitle {
+    font-size: 2em;
+    margin-bottom: 0;
+}
+
+.release, .categories {
+    font-size: 1em;
+    color: #bbbbbb;
+    text-transform: uppercase;
+}
+
+.categories {
+    font-size: 2em;
+}
+
+.formatcolumn {
+    vertical-align: top;
+    text-align: right;
+}
+
+.formats {
+    width: 4em;
+    height: 2.2em;
+    margin-left: 1em;
+    margin-right: 0;
+}
+
+.rss img {
+    width: 1em;
+}
+
+#footer {
+    clear: both;
+    text-align: center;
+}
+
+.fn {
+    display: inline-block;
+}
+
+.mi {
+    display: inline-block;
+    width: 20px;
+}
+
+.ln {
+    display: inline-block;
+}
+
+.sfx {
+    display: inline-block;
+}
+
+#search {
+    float: left;
+    margin-right: 5px;
+}
+
+.btn-primary {
+    display: inline-block;
+}
+
+table, .table, .table tbody, .table tbody tr, .table tbody tr td {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.table {
+    vertical-align: top;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 40px;
+}
+
+.plot {
+    padding-bottom: 15px;
+}
+
+.row {
+    margin-bottom: 15px;
+}
+
+.row, .h4 {
+    border-bottom: solid 1px #fff;
+}
+
+div.navbar {
+    min-height: 20px !important;
+}
