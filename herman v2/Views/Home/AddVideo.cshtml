@@ -8,7 +8,7 @@
 
     if (vid == null)
     {
-        vid = "";
+        vid = "0";
     }
 }
 
@@ -43,7 +43,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    <script>
+<script>
         function Search4Video() {
 
             var search = $('input[type="text"][name$="Search"]').val();
@@ -67,5 +67,5 @@
             });
         }
 
-    </script>
+</script>
 }

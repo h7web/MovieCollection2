@@ -39,6 +39,8 @@ namespace herman_v2.Models
         public Nullable<System.DateTime> modified { get; set; }
         public string owner { get; set; }
         public string keywords { get; set; }
+        public string imdb_id { get; set; }
+        public string tmdb_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<actor2movie> actor2movie { get; set; }

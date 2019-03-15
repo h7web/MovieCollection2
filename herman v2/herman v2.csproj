@@ -20,8 +20,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -178,6 +178,7 @@
       <DependentUpon>HermanModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Partialactor.cs" />
+    <Compile Include="Models\Partialcharacter.cs" />
     <Compile Include="Models\Partialdirector.cs" />
     <Compile Include="Models\tmdbActorDetail.cs" />
     <Compile Include="Models\tmdbActorSearch.cs" />
@@ -292,6 +293,8 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Home\VideoDetails.cshtml" />
+    <Content Include="Views\Home\ViewDirector.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

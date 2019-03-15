@@ -1,0 +1,35 @@
+﻿@model herman_v2.Models.director
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var mymovielist = Model.mymovies;
+    ViewBag.Title = "view Director";
+}
+
+<h2>Director</h2>
+
+<div>
+    <dl>
+        <dd>
+            <strong>
+                @Html.DisplayFor(model => model.dir_first_name)
+                @Html.DisplayFor(model => model.dir_mi)
+                @Html.DisplayFor(model => model.dir_last_name)
+            </strong>
+        </dd>
+    </dl>
+</div>
+<div>
+    <dl>
+        @foreach (var item in mymovielist)
+        {
+            <dd>
+                <a href="@Url.Action("VideoDetails","Home", new { id=item.video_id })">
+                    @item.Release_Date
+                    --
+                    @item.Video_Name
+                </a>
+            </dd>
+        }
+    </dl>
+</div>
+

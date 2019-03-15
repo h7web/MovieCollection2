@@ -10,7 +10,7 @@
 <div>
     <dl>
         <dd>
-            <img src=http://h7.hopto.org/herman/actors/@Html.DisplayFor(model => class="actor") />
+            <img src=http://h7.hopto.org/herman/actors/@Html.DisplayFor(model => model.actor_photo, new { htmlAttributes = new { @class = "actor" } }) />
             @Html.DisplayFor(model => model.actor_first_name)
             @Html.DisplayFor(model => model.actor_mi)
             @Html.DisplayFor(model => model.actor_last_name)
@@ -23,7 +23,7 @@
         @foreach (var item in mymovielist)
         {
             <dd>
-                <a href="@Url.Action(" VideoDetails","Home", new { id=item.video_id })">
+                <a href="@Url.Action("VideoDetails","Home", new { id=item.video_id })">
                     @item.Release_Date
                     --
                     @item.Video_Name

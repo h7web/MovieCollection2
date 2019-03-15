@@ -25,6 +25,7 @@ namespace herman_v2.Models
         public string dir_mi { get; set; }
         public string dir_last_name { get; set; }
         public System.Guid msrepl_tran_version { get; set; }
+        public string dir_name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Video> Videos { get; set; }

@@ -26,6 +26,7 @@ namespace herman_v2.Models
         public string char_last_name { get; set; }
         public string char_alias { get; set; }
         public System.Guid msrepl_tran_version { get; set; }
+        public string char_name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<actor2movie> actor2movie { get; set; }

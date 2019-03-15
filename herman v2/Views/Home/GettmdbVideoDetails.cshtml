@@ -17,7 +17,7 @@
 
     foreach (var item in rlist.release_dates)
     {
-        if (item.type == 1)
+        if (item.certification != "")
         {
             rating = item.certification;
         }
@@ -27,77 +27,73 @@
 
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("AddVideo", "Home"))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>tmdbVideoDetails</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="form-horizontal">
+    <h4>Video Detailss</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @Html.HiddenFor(model => model.id)
-        @Html.HiddenFor(model => model.imdb_id)
-        @Html.HiddenFor(model => model.overview)
-        @Html.HiddenFor(model => model.poster_path)
-        @Html.HiddenFor(model => model.release_date)
-        @Html.HiddenFor(model => model.runtime)
-        @Html.HiddenFor(model => model.tagline)
-        @Html.HiddenFor(model => model.title)
-        @Html.Hidden("rating", rating)
-        @Html.Hidden("dir", dir_id)
-        @Html.Hidden("category", genre)
+    @Html.Hidden("tmdb_id", Model.id)
+    @Html.HiddenFor(model => model.imdb_id)
+    @Html.Hidden("Plot", Model.overview)
+    @Html.Hidden("Box_Cover", Model.poster_path)
+    @Html.Hidden("Release_Date", DateTime.Parse(Model.release_date).Year)
+    @Html.Hidden("lengthtxt", Model.runtime)
+    @Html.Hidden("Tagline", Model.tagline)
+    @Html.Hidden("Video_Name", Model.title)
+    @Html.Hidden("ratingtxt", rating)
+    @Html.Hidden("dir_name", dir_name)
+    @Html.Hidden("category_name", genre)
 
-        <div class="form-group">
-            @Html.Label("Plot", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.overview)
-            </div>
-        </div>
+    <dl>
+        <dd>
+            <img src="https://image.tmdb.org/t/p/w220_and_h330_face/@Model.poster_path" />
+        </dd>
+        <dt>Title</dt>
+        <dd>
+            @Html.DisplayFor(model => model.title)
 
-        <div class="form-group">
-            <div class="col-md-10">
-                <img src="https://image.tmdb.org/t/p/w220_and_h330_face/@Model.poster_path" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Release Date", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.release_date)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Runtime", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.runtime)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Tag Line", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.tagline)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.title)
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+        </dd>
+        <dt>Director</dt>
+        <dd>
+            @dir_name
+        </dd>
+        <dt>Year</dt>
+        <dd>
+            @Html.DisplayFor(model => model.release_date)
+        </dd>
+        <dt>Runtime</dt>
+        <dd>
+            @Html.DisplayFor(model => model.runtime)
+        </dd>
+        <dt>Category</dt>
+        <dd>
+            @genre
+        </dd>
+        <dt>Rating</dt>
+        <dd>
+            @rating
+        </dd>
+        <dt>Tagline</dt>
+        <dd>
+            @Html.DisplayFor(model => model.tagline)
+        </dd>
+        <dt>Plot</dt>
+        <dd>@Html.DisplayFor(model => model.overview)
+        <dt>VHS</dt>
+        <dd> @Html.CheckBox("VHS", new { @class = "form-control" })</dd>
+        <dt>DVD</dt>
+        <dd> @Html.CheckBox("DVD", new { @class = "form-control" })</dd>
+        <dt>BLURAY</dt>
+        <dd> @Html.CheckBox("BLURAY", new { @class = "form-control" })</dd>
+        <dt>DIGITAL</dt>
+        <dd> @Html.CheckBox("DIGITAL", new { @class = "form-control" })</dd>
+    </dl>
+    <input type="submit" value="Add to Collection" class="btn btn-default btn-secondary" />
 </div>
+
+    }
+

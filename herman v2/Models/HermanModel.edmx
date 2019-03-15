@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HermanModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HermanModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="actor2movie">
           <Key>
             <PropertyRef Name="actor_id" />
@@ -20,6 +20,7 @@
             <PropertyRef Name="actor_id" />
           </Key>
           <Property Name="actor_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="actor_name" Type="nvarchar" MaxLength="50" />
           <Property Name="actor_first_name" Type="nvarchar" MaxLength="50" />
           <Property Name="actor_mi" Type="nvarchar" MaxLength="50" />
           <Property Name="actor_last_name" Type="nvarchar" MaxLength="50" />
@@ -27,6 +28,7 @@
           <Property Name="actor_photo" Type="nvarchar" MaxLength="100" />
           <Property Name="featured" Type="bit" />
           <Property Name="msrepl_tran_version" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="tmdb_id" Type="nvarchar" MaxLength="15" />
         </EntityType>
         <EntityType Name="category">
           <Key>
@@ -41,10 +43,11 @@
             <PropertyRef Name="char_id" />
           </Key>
           <Property Name="char_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="char_first_name" Type="varchar" MaxLength="50" />
-          <Property Name="char_mi" Type="varchar" MaxLength="50" />
-          <Property Name="char_last_name" Type="varchar" MaxLength="50" />
-          <Property Name="char_alias" Type="varchar" MaxLength="50" />
+          <Property Name="char_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="char_first_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="char_mi" Type="nvarchar" MaxLength="50" />
+          <Property Name="char_last_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="char_alias" Type="nvarchar" MaxLength="50" />
           <Property Name="msrepl_tran_version" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="directors">
@@ -55,6 +58,7 @@
           <Property Name="dir_first_name" Type="nvarchar" MaxLength="50" />
           <Property Name="dir_mi" Type="nvarchar" MaxLength="50" />
           <Property Name="dir_last_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="dir_name" Type="nvarchar" MaxLength="50" />
           <Property Name="msrepl_tran_version" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="images">
@@ -88,6 +92,8 @@
           <Property Name="modified" Type="datetime" />
           <Property Name="owner" Type="nvarchar" MaxLength="50" />
           <Property Name="keywords" Type="nvarchar(max)" />
+          <Property Name="imdb_id" Type="nvarchar" MaxLength="15" />
+          <Property Name="tmdb_id" Type="nvarchar" MaxLength="15" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -213,8 +219,7 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
             <End Role="Videos" EntitySet="Videos" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HermanModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -244,6 +249,8 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
           <Property Name="featured" Type="Boolean" />
           <Property Name="msrepl_tran_version" Type="Guid" Nullable="false" />
           <NavigationProperty Name="actor2movie" Relationship="Self.FK_actor2movie_actors" FromRole="actors" ToRole="actor2movie" />
+          <Property Name="tmdb_id" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="actor_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="category">
           <Key>
@@ -259,12 +266,13 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
             <PropertyRef Name="char_id" />
           </Key>
           <Property Name="char_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="char_first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="char_mi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="char_last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="char_alias" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="char_first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="char_mi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="char_last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="char_alias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="msrepl_tran_version" Type="Guid" Nullable="false" />
           <NavigationProperty Name="actor2movie" Relationship="Self.FK_actor2movie_characters" FromRole="characters" ToRole="actor2movie" />
+          <Property Name="char_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="director">
           <Key>
@@ -276,6 +284,7 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
           <Property Name="dir_last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="msrepl_tran_version" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Videos" Relationship="Self.FK_Videos_directors" FromRole="directors" ToRole="Videos" />
+          <Property Name="dir_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="image">
           <Key>
@@ -313,6 +322,8 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
           <NavigationProperty Name="category1" Relationship="Self.FK_Videos_category" FromRole="Videos" ToRole="category" />
           <NavigationProperty Name="director1" Relationship="Self.FK_Videos_directors" FromRole="Videos" ToRole="directors" />
           <NavigationProperty Name="images" Relationship="Self.FK_images_Videos" FromRole="Videos" ToRole="images" />
+          <Property Name="imdb_id" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="tmdb_id" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="top5s">
           <Key>
@@ -447,6 +458,8 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
           <EntitySetMapping Name="actors">
             <EntityTypeMapping TypeName="HermanModel.actor">
               <MappingFragment StoreEntitySet="actors">
+                <ScalarProperty Name="actor_name" ColumnName="actor_name" />
+                <ScalarProperty Name="tmdb_id" ColumnName="tmdb_id" />
                 <ScalarProperty Name="actor_id" ColumnName="actor_id" />
                 <ScalarProperty Name="actor_first_name" ColumnName="actor_first_name" />
                 <ScalarProperty Name="actor_mi" ColumnName="actor_mi" />
@@ -470,6 +483,7 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
           <EntitySetMapping Name="characters">
             <EntityTypeMapping TypeName="HermanModel.character">
               <MappingFragment StoreEntitySet="characters">
+                <ScalarProperty Name="char_name" ColumnName="char_name" />
                 <ScalarProperty Name="char_id" ColumnName="char_id" />
                 <ScalarProperty Name="char_first_name" ColumnName="char_first_name" />
                 <ScalarProperty Name="char_mi" ColumnName="char_mi" />
@@ -482,6 +496,7 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
           <EntitySetMapping Name="directors">
             <EntityTypeMapping TypeName="HermanModel.director">
               <MappingFragment StoreEntitySet="directors">
+                <ScalarProperty Name="dir_name" ColumnName="dir_name" />
                 <ScalarProperty Name="dir_id" ColumnName="dir_id" />
                 <ScalarProperty Name="dir_first_name" ColumnName="dir_first_name" />
                 <ScalarProperty Name="dir_mi" ColumnName="dir_mi" />
@@ -503,6 +518,8 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
           <EntitySetMapping Name="Videos">
             <EntityTypeMapping TypeName="HermanModel.Video">
               <MappingFragment StoreEntitySet="Videos">
+                <ScalarProperty Name="tmdb_id" ColumnName="tmdb_id" />
+                <ScalarProperty Name="imdb_id" ColumnName="imdb_id" />
                 <ScalarProperty Name="video_id" ColumnName="video_id" />
                 <ScalarProperty Name="Video_Name" ColumnName="Video_Name" />
                 <ScalarProperty Name="VHS" ColumnName="VHS" />

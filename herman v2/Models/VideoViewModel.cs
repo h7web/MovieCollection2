@@ -8,6 +8,8 @@ namespace herman_v2.Models
     public class VideoViewModel
     {
         public Nullable<int> video_id { get; set; }
+        public string imdb_id { get; set; }
+        public string tmdb_id { get; set; }
         public string Video_Name { get; set; }
         public Nullable<bool> VHS { get; set; }
         public Nullable<bool> DVD { get; set; }
@@ -15,13 +17,14 @@ namespace herman_v2.Models
         public Nullable<bool> DIGITAL { get; set; }
         public Nullable<int> Release_Date { get; set; }
         public string Plot { get; set; }
+        public string Tagline { get; set; }
         public string Box_Cover { get; set; }
         public Nullable<int> Director { get; set; }
         public Nullable<int> dir_id { get; set; }
         public string dir_first_name { get; set; }
         public string dir_mi { get; set; }
         public string dir_last_name { get; set; }
-
+        public string dir_name { get; set; }
         public string dir_fullname
         {
             get

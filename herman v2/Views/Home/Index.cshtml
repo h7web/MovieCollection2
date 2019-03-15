@@ -61,7 +61,7 @@
                     @Html.ActionLink(item.Video_Name, "VideoDetails", new { id = item.video_id })
                 </div>
                 <p>
-                    @Html.ActionLink(item.dir_fullname, "ViewDirector", "Home", new { id = item.dir_id })
+                    @Html.ActionLink(item.dir_name, "ViewDirector", new { id = item.dir_id })
                     -
                     @Html.DisplayFor(modelItem => item.Release_Date)
                 </p>
@@ -76,7 +76,14 @@
 
         <div class="row">
             <div class="col-lg-12 plot">
-                @Html.DisplayFor(modelItem => item.Plot)
+                @if (item.Tagline != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Tagline)
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Plot)
+                }
             </div>
         </div>
     }
@@ -121,7 +128,15 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    @Html.DisplayFor(modelItem => item.Plot)
+                    @if (item.Tagline != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Tagline)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Plot)
+                    }
+
                 </div>
             </div>
         }

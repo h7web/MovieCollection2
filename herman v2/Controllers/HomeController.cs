@@ -50,9 +50,11 @@ namespace herman_v2.Controllers
                                Release_Date = v.Release_Date,
                                Plot = v.Plot,
                                Box_Cover = v.Box_Cover,
-                               dir_id = d.dir_id,
+                               dir_id = v.Director,
                                dir_first_name = d.dir_first_name,
-                               dir_last_name = d.dir_last_name
+                               dir_last_name = d.dir_last_name,
+                               dir_name = d.dir_name,
+                               Tagline = v.Tagline
                            };
 
                 searchval = "true";
@@ -75,7 +77,10 @@ namespace herman_v2.Controllers
                                Box_Cover = v.Box_Cover,
                                dir_first_name = d.dir_first_name,
                                dir_last_name = d.dir_last_name,
-                               dir_id = d.dir_id
+                               dir_id = v.Director,
+                               dir_name = d.dir_name,
+                               Tagline = v.Tagline
+
                            };
 
                 dash.Recent = (from v in db.Videos
@@ -94,7 +99,10 @@ namespace herman_v2.Controllers
                                    Box_Cover = v.Box_Cover,
                                    dir_first_name = d.dir_first_name,
                                    dir_last_name = d.dir_last_name,
-                                   dir_id = d.dir_id
+                                   dir_id = v.Director,
+                                   dir_name = d.dir_name,
+                                   Tagline = v.Tagline
+
                                }).Take(5);
 
             }
@@ -249,7 +257,7 @@ namespace herman_v2.Controllers
             return PartialView(ret);
         }
 
-        public tmdbVideoDetails GetTMDBVideoDetails(string id, int video_id)
+        public tmdbVideoDetails GetTMDBVideoDetailfromApi(string id, int video_id)
         {
             var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/movie/" + id + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=release_dates,credits");
 
@@ -263,8 +271,8 @@ namespace herman_v2.Controllers
 
         public ActionResult GettmdbVideoDetails(string id, int video_id)
         {
-            var ret = GetTMDBVideoDetails(id, video_id);
-            ret.id = video_id;
+            var ret = GetTMDBVideoDetailfromApi(id, video_id);
+            //ret.id = video_id;
             return PartialView(ret);
         }
 
@@ -285,7 +293,7 @@ namespace herman_v2.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult AddVideo(VideoViewModel vid, string video_id = null)
+        public ActionResult AddVideo(VideoViewModel vid, string video_id)
         {
             var dir = new director();
 
@@ -308,25 +316,50 @@ namespace herman_v2.Controllers
                 rating = 1;
             }
 
-            var len = vid.lengthtxt.Length;
-            len = len - 4;
-            int length = Int32.Parse(vid.lengthtxt.Substring(0, len));
+            int catid = 0;
+
+            if (vid.category_name == "Action")
+            {
+                catid = 1;
+            }
+            else if (vid.category_name == "Animated")
+            {
+                catid = 2;
+            }
+            else if (vid.category_name == "Classic")
+            {
+                catid = 3;
+            }
+            else if (vid.category_name == "Comedy")
+            {
+                catid = 4;
+            }
+            else if (vid.category_name == "Drama")
+            {
+                catid = 5;
+            }
+            else if (vid.category_name == "Sci-Fi")
+            {
+                catid = 6;
+            }
 
             var exvid = (from v in db.Videos where v.video_id.ToString() == video_id select v).FirstOrDefault();
+
+            var dir_id = (from d in db.directors where d.dir_name == vid.dir_name select d.dir_id).FirstOrDefault();
+            vid.Director = dir_id;
 
             if (exvid == null)
             {
                 if (vid.Director == null)
                 {
-                    dir.dir_first_name = vid.newDirector.Substring(0, vid.newDirector.IndexOf(" "));
-                    dir.dir_last_name = (vid.newDirector.Substring((vid.newDirector.IndexOf(" ")), (vid.newDirector.Length - vid.newDirector.IndexOf(" ")))).Trim();
+                    dir.dir_first_name = vid.dir_name.Substring(0, vid.dir_name.IndexOf(" "));
+                    dir.dir_last_name = (vid.dir_name.Substring((vid.dir_name.IndexOf(" ")), (vid.dir_name.Length - vid.dir_name.IndexOf(" ")))).Trim();
+                    dir.dir_name = vid.dir_name;
 
                     db.directors.Add(dir);
                     db.SaveChanges();
-                }
-                else
-                {
-                    dir.dir_id = (int)vid.Director;
+
+                    vid.Director = dir.dir_id;
                 }
             }
 
@@ -338,10 +371,13 @@ namespace herman_v2.Controllers
                 exvid.DIGITAL = vid.DIGITAL;
                 exvid.Release_Date = vid.Release_Date;
                 exvid.rating = rating;
-                exvid.length = length;
+                exvid.length = Convert.ToInt32(vid.lengthtxt);
                 exvid.Plot = vid.Plot;
-                exvid.Category = vid.Category;
-                exvid.Box_Cover = vid.Box_Cover;
+                exvid.Tagline = vid.Tagline;
+                exvid.Category = catid;
+                exvid.Box_Cover = "https://image.tmdb.org/t/p/w220_and_h330_face" + vid.Box_Cover;
+                exvid.imdb_id = vid.imdb_id;
+                exvid.tmdb_id = vid.tmdb_id;
             }
             else
             {
@@ -354,12 +390,15 @@ namespace herman_v2.Controllers
                 newVideo.DIGITAL = vid.DIGITAL;
                 newVideo.Release_Date = vid.Release_Date;
                 newVideo.rating = rating;
-                newVideo.length = length;
+                newVideo.length = Convert.ToInt32(vid.lengthtxt);
                 newVideo.Plot = vid.Plot;
-                newVideo.Director = dir.dir_id;
-                newVideo.Category = vid.Category;
-                newVideo.Box_Cover = vid.Box_Cover;
+                newVideo.Tagline = vid.Tagline;
+                newVideo.Director = vid.Director;
+                newVideo.Category = catid;
+                newVideo.Box_Cover = "https://image.tmdb.org/t/p/w220_and_h330_face" + vid.Box_Cover;
                 newVideo.featured = false;
+                newVideo.imdb_id = vid.imdb_id;
+                newVideo.tmdb_id = vid.tmdb_id;
                 db.Videos.Add(newVideo);
             }
 

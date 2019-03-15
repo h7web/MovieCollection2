@@ -1,0 +1,95 @@
+﻿@model herman_v2.Models.VideoViewModel
+
+@{
+    ViewBag.Title = "Video Details";
+
+    var vcl = Model.VideoCastList;
+}
+
+@using herman_v2.Controllers;
+
+<h2>Video Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dd>
+            @if (Model.Box_Cover.Contains("https"))
+            {
+                <img src="@Html.DisplayFor(model => model.Box_Cover)" class="cover" />
+            }
+            else
+            {
+                <img src="http://h7.hopto.org/herman/images/@Html.DisplayFor(model => model.Box_Cover)" class="cover" />
+            }
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.Video_Name) - (@Html.DisplayFor(model => model.Release_Date))
+            @if (HomeController.CanEdit())
+            {
+                @Html.ActionLink("Update", "AddVideo", new { @search = Model.Video_Name, @id = Model.video_id })
+            }
+        </dd>
+
+        <dd class="formatcolumn">
+            @Html.Raw(FormatHelper.GetMediaFormat(Model.VHS, "VHS"))
+            @Html.Raw(FormatHelper.GetMediaFormat(Model.DVD, "DVD"))
+            @Html.Raw(FormatHelper.GetMediaFormat(Model.BLURAY, "BLURAY"))
+            @Html.Raw(FormatHelper.GetMediaFormat(Model.DIGITAL, "DIGITAL"))
+        </dd>
+
+        <dd>
+            <a href="@Url.Action("ViewDirector","Home", new { id = Model.dir_id })">@Html.DisplayFor(model => model.dir_fullname)</a>
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.length) min
+        </dd>
+
+        <dd>
+            @Html.Raw(FormatHelper.GetRatingFormat(Model.rating))
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.category_name)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plot)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <dl class="dl-horizontal">
+        @foreach (var item in vcl)
+        {
+            <dd>
+                <a href='@Url.Action("ViewActor","Home", new { id = item.actor.actor_id })'>
+                    <img src=http://h7.hopto.org/herman/actors/@item.actor.actor_photo class=actor />
+                </a>
+                <a href="@Url.Action("ViewActor","Home", new { id=item.actor.actor_id })">
+                    @item.actor.actor_name
+                </a>
+                . . . . .
+                @item.character.char_name
+                @if (HomeController.CanEdit())
+                {
+                    <a href='@Url.Action("RemoveActor", "Home", new { video_id = Model.video_id, actor_id = item.actor.actor_id, char_id = item.character.char_id })'>[Remove]</a>
+                }
+            </dd>
+        }
+    </dl>
+</div>
+<p>
+    @if (HomeController.CanEdit())
+    {
+        @Html.ActionLink("Edit", "EditVideo", new { id = Model.video_id })
+        @:|
+        @Html.ActionLink("Add Actors", "AddActors", new { id = Model.video_id })
+        @:|
+        @Html.ActionLink("Add Actor [new]", "AddActor", new { id = Model.video_id, tmdb_id = Model.tmdb_id })
+        @:|
+    }
+    @Html.ActionLink("Back to List", "Index")
+</p>

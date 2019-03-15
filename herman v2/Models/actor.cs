@@ -28,6 +28,8 @@ namespace herman_v2.Models
         public string actor_photo { get; set; }
         public Nullable<bool> featured { get; set; }
         public System.Guid msrepl_tran_version { get; set; }
+        public string tmdb_id { get; set; }
+        public string actor_name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<actor2movie> actor2movie { get; set; }
