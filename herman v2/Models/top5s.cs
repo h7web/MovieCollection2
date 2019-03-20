@@ -18,5 +18,6 @@ namespace herman_v2.Models
         public string actor_first_name { get; set; }
         public string actor_last_name { get; set; }
         public Nullable<int> cnt { get; set; }
+        public string actor_name { get; set; }
     }
 }

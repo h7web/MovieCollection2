@@ -21,7 +21,7 @@
                 }
                 else
                 {
-                    @Html.ActionLink("Log On", "Logon")
+                    @Html.ActionLink("Log On", "Logon", new { @gotourl = Request.Url.ToString() })
                 }
             </div>
         </div>

@@ -8,6 +8,8 @@ namespace herman_v2.Models
 {
     public class tmdbVideoResult
     {
+        internal List<tmdbVideoResult> results;
+
         public int vote_count { get; set; }
         public int id { get; set; }
         public bool video { get; set; }

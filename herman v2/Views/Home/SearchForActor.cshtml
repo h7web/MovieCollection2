@@ -1,17 +1,21 @@
-﻿@model IEnumerable<herman_v2.Models.tmdbResult>
+﻿@model herman_v2.Models.tmdbVideoDetails
 
+<h3>Actors in @Model.title</h3>
 <table class="table">
     <tr>
         <th></th>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.id)
+            Character
+        </th>
+        <th>
+            TMDB ID
         </th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.credits.cast)
     {
         if (item.profile_path != null)
         {
@@ -20,9 +24,10 @@
                     <img src="https://image.tmdb.org/t/p/w90_and_h90_face/@item.profile_path" />
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.name)
-                    <br />
-                    @Html.ActionLink(item.name, getchar4actor(item.id))
+                    @Html.ActionLink(item.name, "AddActorToVideo", new { @video_id = Model.video_id, @actor_name = item.name, @actor_photo = item.profile_path, @tmdb_id = item.id, @char_name = item.character })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.character)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.id)

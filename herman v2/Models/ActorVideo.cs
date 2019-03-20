@@ -15,5 +15,30 @@ namespace herman_v2.Models
         public string char_mi { get; set; }
         public string char_last_name { get; set; }
         public string char_alias { get; set; }
+
+        public string char_name { get; set; }
+
+        public string char_fullname
+        {
+            get
+            {
+                var fullname = "";
+
+                fullname = char_first_name + ' ';
+                if (char_mi != null)
+                {
+                    fullname = fullname + char_mi + ' ';
+                }
+
+                fullname = fullname + char_last_name;
+
+                if (char_alias != null)
+                {
+                    fullname = fullname + ' ' + '(' + char_alias + ')';
+                }
+
+                return fullname;
+            }
+        }
     }
 }

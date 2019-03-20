@@ -1,5 +1,4 @@
 ﻿body {
-    padding-top: 80px;
     padding-bottom: 20px;
     background-color: #0066B3;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -47,8 +46,8 @@ p, td {
 
 .cover, .actor {
     width: 7.75em;
-    height: 10em;
-    margin-right: .5em;
+/*    height: 10em; */
+    margin-right: 3em;
     margin-bottom: 15px;
 }
 
@@ -144,4 +143,5 @@ table, .table, .table tbody, .table tbody tr, .table tbody tr td {
 
 div.navbar {
     min-height: 20px !important;
+    background-color:black;
 }

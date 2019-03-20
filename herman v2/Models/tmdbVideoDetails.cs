@@ -109,5 +109,6 @@ namespace herman_v2.Models
         public int vote_count { get; set; }
         public ReleaseDates release_dates { get; set; }
         public Credits credits { get; set; }
+        public string video_id { get; set; }
     }
 }

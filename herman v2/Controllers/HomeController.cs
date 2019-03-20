@@ -112,9 +112,9 @@ namespace herman_v2.Controllers
         }
 
         [Authorize]
-        public ActionResult Logon()
+        public ActionResult Logon(string gotourl)
         {
-            return RedirectToAction("Index");
+            return new RedirectResult(gotourl);
         }
 
         public static bool CanEdit()
@@ -160,10 +160,13 @@ namespace herman_v2.Controllers
                                 Box_Cover = v.Box_Cover,
                                 dir_first_name = d.dir_first_name,
                                 dir_last_name = d.dir_last_name,
+                                dir_mi = d.dir_mi,
+                                dir_name = d.dir_name,
                                 dir_id = d.dir_id,
                                 length = v.length,
                                 rating = v.rating,
-                                category_name = c.category_name
+                                category_name = c.category_name,
+                                tmdb_id = v.tmdb_id
                             }).SingleOrDefault();
 
             var getcast = (from a2 in db.actor2movie
@@ -200,7 +203,8 @@ namespace herman_v2.Controllers
                                      char_first_name = c == null ? "" : c.char_first_name,
                                      char_mi = c == null ? "" : c.char_mi,
                                      char_last_name = c == null ? "" : c.char_last_name,
-                                     char_alias = c == null ? "" : c.char_alias
+                                     char_alias = c == null ? "" : c.char_alias,
+                                     char_name = c.char_name
                                  }).ToList();
 
             return View(getactor);
@@ -234,13 +238,14 @@ namespace herman_v2.Controllers
             return tmdbvidsearch.results;
         }
 
-        public List<tmdbResult> ActorSearchResults(string search)
+        public tmdbVideoDetails ActorSearchResults(string tmdbid)
         {
-            var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/search/person?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&page=1&include_adult=false&query=" + Url.Encode(search));
+            //var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/search/person?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&page=1&include_adult=false&query=" + Url.Encode(search));
+            var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/movie/" + tmdbid + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=credits");
 
-            var tmdbsearch = JsonConvert.DeserializeObject<tmdbActorSearch>(jsonString);
+            var tmdbsearch = JsonConvert.DeserializeObject<tmdbVideoDetails>(jsonString);
 
-            return tmdbsearch.results;
+            return tmdbsearch;
         }
 
         public ActionResult SearchForVideo(string search)
@@ -250,11 +255,13 @@ namespace herman_v2.Controllers
             return PartialView(ret);
         }
 
-        public ActionResult SearchForActor(string search)
+        public ActionResult SearchForActor(string videoid, string tmdbid)
         {
-            var ret = ActorSearchResults(search);
+            var ret = ActorSearchResults(tmdbid);
 
-            return PartialView(ret);
+            ret.video_id = videoid;
+
+            return View(ret);
         }
 
         public tmdbVideoDetails GetTMDBVideoDetailfromApi(string id, int video_id)
@@ -272,7 +279,7 @@ namespace herman_v2.Controllers
         public ActionResult GettmdbVideoDetails(string id, int video_id)
         {
             var ret = GetTMDBVideoDetailfromApi(id, video_id);
-            //ret.id = video_id;
+            ret.video_id = video_id.ToString();
             return PartialView(ret);
         }
 
@@ -289,6 +296,79 @@ namespace herman_v2.Controllers
             ViewData["aid"] = id;
             ViewData["vid"] = id;
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddActor(int id, actor a, character c)
+        {
+            actor2movie a2m = new actor2movie();
+
+            if (a.actor_id == 0)
+            {
+                db.actors.Add(a);
+                db.SaveChanges();
+            }
+
+            if (c.char_id == 0)
+            {
+                db.characters.Add(c);
+                db.SaveChanges();
+            }
+
+            a2m.video_id = id;
+            a2m.actor_id = a.actor_id;
+            a2m.char_id = c.char_id;
+
+            db.actor2movie.Add(a2m);
+            db.SaveChanges();
+
+            return RedirectToAction("VideoDetails", new { @id = id });
+        }
+
+        public ActionResult AddActorToVideo(int video_id, actor a, character c)
+        {
+            actor2movie a2m = new actor2movie();
+
+            if (a.actor_id == 0)
+            {
+                var actr = (from ac in db.actors where a.actor_name == ac.actor_name || (a.actor_name.Contains(ac.actor_first_name) && a.actor_name.Contains(ac.actor_last_name)) select ac).FirstOrDefault();
+
+                if (actr == null)
+                {
+                    db.actors.Add(a);
+                    db.SaveChanges();
+                    a2m.actor_id = a.actor_id;
+                }
+                else
+                {
+                    a2m.actor_id = actr.actor_id;
+                    actr.actor_photo = a.actor_photo;
+                    actr.tmdb_id = a.tmdb_id;
+                }
+            }
+
+            if (c.char_id == 0)
+            {
+                var chr = (from ch in db.characters where c.char_name == ch.char_name select ch.char_id).FirstOrDefault();
+
+                if (chr == 0)
+                {
+                    db.characters.Add(c);
+                    db.SaveChanges();
+                    a2m.char_id = c.char_id;
+                }
+                else
+                {
+                    a2m.char_id = chr;
+                }
+            }
+
+            a2m.video_id = video_id;
+
+            db.actor2movie.Add(a2m);
+            db.SaveChanges();
+
+            return RedirectToAction("VideoDetails", new { @id = video_id });
         }
 
         [HttpPost]
@@ -316,32 +396,7 @@ namespace herman_v2.Controllers
                 rating = 1;
             }
 
-            int catid = 0;
-
-            if (vid.category_name == "Action")
-            {
-                catid = 1;
-            }
-            else if (vid.category_name == "Animated")
-            {
-                catid = 2;
-            }
-            else if (vid.category_name == "Classic")
-            {
-                catid = 3;
-            }
-            else if (vid.category_name == "Comedy")
-            {
-                catid = 4;
-            }
-            else if (vid.category_name == "Drama")
-            {
-                catid = 5;
-            }
-            else if (vid.category_name == "Sci-Fi")
-            {
-                catid = 6;
-            }
+            int catid = (from c in db.categories where vid.category_name == c.category_name select c.category_id).FirstOrDefault();
 
             var exvid = (from v in db.Videos where v.video_id.ToString() == video_id select v).FirstOrDefault();
 
@@ -426,7 +481,15 @@ namespace herman_v2.Controllers
                 }
             }
 
-            return RedirectToAction("Index");
+
+            if (video_id != null)
+            {
+                return RedirectToAction("VideoDetails", new { id = video_id });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         public ActionResult EditVideo(int id)
@@ -462,17 +525,6 @@ namespace herman_v2.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("VideoDetails", new { id = vid.video_id });
-        }
-
-        public ActionResult getchar4actor(int id)
-        {
-            var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/person/" + id + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US");
-
-            var tmdbactor = JsonConvert.DeserializeObject<tmdbActorDetail>(jsonString);
-
-
-
-            return View();
         }
 
         public ActionResult RemoveActor(int video_id, int actor_id, int char_id)

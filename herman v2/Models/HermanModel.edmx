@@ -43,7 +43,7 @@
             <PropertyRef Name="char_id" />
           </Key>
           <Property Name="char_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="char_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="char_name" Type="nvarchar" MaxLength="150" />
           <Property Name="char_first_name" Type="nvarchar" MaxLength="50" />
           <Property Name="char_mi" Type="nvarchar" MaxLength="50" />
           <Property Name="char_last_name" Type="nvarchar" MaxLength="50" />
@@ -104,6 +104,7 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
           <Property Name="actor_id" Type="int" Nullable="false" />
           <Property Name="actor_first_name" Type="nvarchar" MaxLength="50" />
           <Property Name="actor_last_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="actor_name" Type="nvarchar" MaxLength="50" />
           <Property Name="cnt" Type="int" />
         </EntityType>
         <Association Name="FK_actor2movie_actors">
@@ -191,6 +192,7 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
     [top5s].[actor_id] AS [actor_id], 
     [top5s].[actor_first_name] AS [actor_first_name], 
     [top5s].[actor_last_name] AS [actor_last_name], 
+    [top5s].[actor_name] AS [actor_name], 
     [top5s].[cnt] AS [cnt]
     FROM [dbo].[top5s] AS [top5s]</DefiningQuery>
           </EntitySet>
@@ -272,7 +274,7 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
           <Property Name="char_alias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="msrepl_tran_version" Type="Guid" Nullable="false" />
           <NavigationProperty Name="actor2movie" Relationship="Self.FK_actor2movie_characters" FromRole="characters" ToRole="actor2movie" />
-          <Property Name="char_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="char_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="director">
           <Key>
@@ -333,6 +335,7 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
           <Property Name="actor_first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="actor_last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="cnt" Type="Int32" />
+          <Property Name="actor_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_actor2movie_actors">
           <End Role="actors" Type="Self.actor" Multiplicity="1" />
@@ -544,6 +547,7 @@ warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defi
           <EntitySetMapping Name="top5s">
             <EntityTypeMapping TypeName="HermanModel.top5s">
               <MappingFragment StoreEntitySet="top5s">
+                <ScalarProperty Name="actor_name" ColumnName="actor_name" />
                 <ScalarProperty Name="actor_id" ColumnName="actor_id" />
                 <ScalarProperty Name="actor_first_name" ColumnName="actor_first_name" />
                 <ScalarProperty Name="actor_last_name" ColumnName="actor_last_name" />

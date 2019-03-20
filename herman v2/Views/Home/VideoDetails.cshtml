@@ -39,7 +39,16 @@
         </dd>
 
         <dd>
-            <a href="@Url.Action("ViewDirector","Home", new { id = Model.dir_id })">@Html.DisplayFor(model => model.dir_fullname)</a>
+            <a href="@Url.Action("ViewDirector","Home", new { id = Model.dir_id })">
+                @if (Model.dir_name == null)
+                {
+                    @Html.DisplayFor(model => model.dir_fullname)
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.dir_name)
+                }
+            </a>
         </dd>
 
         <dd>
@@ -56,6 +65,8 @@
 
         <dd>
             @Html.DisplayFor(model => model.Plot)
+            tmdbid should be here 
+            @Html.DisplayFor(model => model.tmdb_id)
         </dd>
 
     </dl>
@@ -66,7 +77,7 @@
         {
             <dd>
                 <a href='@Url.Action("ViewActor","Home", new { id = item.actor.actor_id })'>
-                    <img src=http://h7.hopto.org/herman/actors/@item.actor.actor_photo class=actor />
+                    <img src=https://image.tmdb.org/t/p/w90_and_h90_face/@item.actor.actor_photo class=actor />
                 </a>
                 <a href="@Url.Action("ViewActor","Home", new { id=item.actor.actor_id })">
                     @item.actor.actor_name
@@ -86,10 +97,7 @@
     {
         @Html.ActionLink("Edit", "EditVideo", new { id = Model.video_id })
         @:|
-        @Html.ActionLink("Add Actors", "AddActors", new { id = Model.video_id })
-        @:|
-        @Html.ActionLink("Add Actor [new]", "AddActor", new { id = Model.video_id, tmdb_id = Model.tmdb_id })
+        @Html.ActionLink("Add Actor [newish]", "SearchForActor", "Home", new { videoid = Model.video_id, tmdbid = Model.tmdb_id }, null)
         @:|
     }
-    @Html.ActionLink("Back to List", "Index")
 </p>

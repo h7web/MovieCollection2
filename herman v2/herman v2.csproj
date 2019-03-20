@@ -203,6 +203,14 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\bluray_logo.jpg" />
+    <Content Include="images\digital_logo.jpg" />
+    <Content Include="images\DVD.gif" />
+    <Content Include="images\g.jpg" />
+    <Content Include="images\pg-13.jpg" />
+    <Content Include="images\pg.jpg" />
+    <Content Include="images\r.jpg" />
+    <Content Include="images\VHS.gif" />
     <Content Include="Models\HermanModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>HermanModel.Context.cs</LastGenOutput>
@@ -242,6 +250,7 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
