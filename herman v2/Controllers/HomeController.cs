@@ -276,18 +276,31 @@ namespace herman_v2.Controllers
             return tmdbsearch;
         }
 
-        public ActionResult GettmdbVideoDetails(string id, int video_id)
+        public ActionResult GettmdbVideoDetails(string id, int video_id, bool VHS, bool DVD, bool BLURAY, bool DIGITAL)
         {
             var ret = GetTMDBVideoDetailfromApi(id, video_id);
             ret.video_id = video_id.ToString();
+            ret.VHS = VHS;
+            ret.DVD = DVD;
+            ret.BLURAY = BLURAY;
+            ret.DIGITAL = DIGITAL;
             return PartialView(ret);
         }
 
-        public ActionResult AddVideo(string id, string search)
+        public ActionResult AddVideo(string id, string search, bool vhs, bool dvd, bool bluray, bool digital)
         {
             ViewData["uvs"] = search;
             ViewData["vid"] = id;
-            return View();
+
+            var ret = new Video();
+            ret.video_id = Convert.ToInt32(id);
+            ret.Video_Name = search;
+            ret.VHS = vhs;
+            ret.DVD = dvd;
+            ret.BLURAY = bluray;
+            ret.DIGITAL = digital;
+
+            return View(ret);
         }
 
         public ActionResult AddActor(string vid, string id, string search)
@@ -345,8 +358,8 @@ namespace herman_v2.Controllers
                     actr.actor_photo = a.actor_photo;
                     actr.tmdb_id = a.tmdb_id;
                 }
-            }
 
+            }
             if (c.char_id == 0)
             {
                 var chr = (from ch in db.characters where c.char_name == ch.char_name select ch.char_id).FirstOrDefault();
@@ -365,7 +378,11 @@ namespace herman_v2.Controllers
 
             a2m.video_id = video_id;
 
-            db.actor2movie.Add(a2m);
+            var a2mexists = (from a2 in db.actor2movie where a2m.actor_id == a2.actor_id && a2m.video_id == a2.video_id && a2m.char_id == a2.char_id select a2).FirstOrDefault();
+            if (a2mexists == null)
+            {
+                db.actor2movie.Add(a2m);
+            }
             db.SaveChanges();
 
             return RedirectToAction("VideoDetails", new { @id = video_id });
@@ -376,6 +393,7 @@ namespace herman_v2.Controllers
         public ActionResult AddVideo(VideoViewModel vid, string video_id)
         {
             var dir = new director();
+            var vidid = 0;
 
             int rating = 0;
 
@@ -405,7 +423,7 @@ namespace herman_v2.Controllers
 
             if (exvid == null)
             {
-                if (vid.Director == null)
+                if (vid.Director == 0)
                 {
                     dir.dir_first_name = vid.dir_name.Substring(0, vid.dir_name.IndexOf(" "));
                     dir.dir_last_name = (vid.dir_name.Substring((vid.dir_name.IndexOf(" ")), (vid.dir_name.Length - vid.dir_name.IndexOf(" ")))).Trim();
@@ -433,6 +451,8 @@ namespace herman_v2.Controllers
                 exvid.Box_Cover = "https://image.tmdb.org/t/p/w220_and_h330_face" + vid.Box_Cover;
                 exvid.imdb_id = vid.imdb_id;
                 exvid.tmdb_id = vid.tmdb_id;
+
+                vidid = exvid.video_id;
             }
             else
             {
@@ -455,6 +475,9 @@ namespace herman_v2.Controllers
                 newVideo.imdb_id = vid.imdb_id;
                 newVideo.tmdb_id = vid.tmdb_id;
                 db.Videos.Add(newVideo);
+                db.SaveChanges();
+
+                vidid = newVideo.video_id;
             }
 
             try
@@ -481,10 +504,9 @@ namespace herman_v2.Controllers
                 }
             }
 
-
-            if (video_id != null)
+            if (vidid != 0)
             {
-                return RedirectToAction("VideoDetails", new { id = video_id });
+                return RedirectToAction("VideoDetails", new { id = vidid });
             }
             else
             {

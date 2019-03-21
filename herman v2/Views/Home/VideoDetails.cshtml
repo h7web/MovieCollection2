@@ -24,10 +24,10 @@
             }
         </dd>
         <dd>
-            @Html.DisplayFor(model => model.Video_Name) - (@Html.DisplayFor(model => model.Release_Date))
+            @Html.DisplayFor(model => model.Video_Name) - (@Html.DisplayFor(model => model.Release_Date)) 
             @if (HomeController.CanEdit())
             {
-                @Html.ActionLink("Update", "AddVideo", new { @search = Model.Video_Name, @id = Model.video_id })
+                @Html.ActionLink("Update", "AddVideo", new { @search = Model.Video_Name, @id = Model.video_id, @vhs = Model.VHS, @dvd = Model.DVD, @bluray = Model.BLURAY, @digital = Model.DIGITAL })
             }
         </dd>
 
@@ -65,8 +65,12 @@
 
         <dd>
             @Html.DisplayFor(model => model.Plot)
-            tmdbid should be here 
-            @Html.DisplayFor(model => model.tmdb_id)
+            @if (HomeController.CanEdit())
+            {
+               <br />
+                @:tmdbid should be here =>
+                @Html.DisplayFor(model => model.tmdb_id)
+            }
         </dd>
 
     </dl>
@@ -95,9 +99,13 @@
 <p>
     @if (HomeController.CanEdit())
     {
-        @Html.ActionLink("Edit", "EditVideo", new { id = Model.video_id })
-        @:|
-        @Html.ActionLink("Add Actor [newish]", "SearchForActor", "Home", new { videoid = Model.video_id, tmdbid = Model.tmdb_id }, null)
-        @:|
+        if (Model.tmdb_id != null)
+        {
+        @Html.ActionLink("Add Actor", "SearchForActor", "Home", new { videoid = Model.video_id, tmdbid = Model.tmdb_id, onclick = "" }, null)
+        }
+        else
+        {
+            @: * You must update the video before adding Actors. *
+        }
     }
 </p>

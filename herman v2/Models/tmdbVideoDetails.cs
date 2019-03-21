@@ -110,5 +110,10 @@ namespace herman_v2.Models
         public ReleaseDates release_dates { get; set; }
         public Credits credits { get; set; }
         public string video_id { get; set; }
+
+        public Nullable<bool> VHS { get; set; }
+        public Nullable<bool> DVD { get; set; }
+        public Nullable<bool> BLURAY { get; set; }
+        public Nullable<bool> DIGITAL { get; set; }
     }
 }

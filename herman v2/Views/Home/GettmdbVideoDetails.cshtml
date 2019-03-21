@@ -25,6 +25,11 @@
 
     var genre = (from g in Model.genres select g.name).FirstOrDefault();
 
+    var VHS = Convert.ToBoolean(Model.VHS);
+    var DVD = Convert.ToBoolean(Model.DVD);
+    var BLURAY = Convert.ToBoolean(Model.BLURAY);
+    var DIGITAL = Convert.ToBoolean(Model.DIGITAL);
+
 }
 
 @using (Html.BeginForm("AddVideo", "Home"))
@@ -32,7 +37,7 @@
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>Video Detailss</h4>
+    <h4>Video Details</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -85,13 +90,13 @@
         <dt>Plot</dt>
         <dd>@Html.DisplayFor(model => model.overview)
         <dt>VHS</dt>
-        <dd> @Html.CheckBox("VHS", new { @class = "form-control" })</dd>
+        <dd> @Html.CheckBox("VHS", VHS, new { @class = "form-control" })</dd>
         <dt>DVD</dt>
-        <dd> @Html.CheckBox("DVD", new { @class = "form-control" })</dd>
+        <dd> @Html.CheckBox("DVD", DVD, new { @class = "form-control" })</dd>
         <dt>BLURAY</dt>
-        <dd> @Html.CheckBox("BLURAY", new { @class = "form-control" })</dd>
+        <dd> @Html.CheckBox("BLURAY", BLURAY, new { @class = "form-control" })</dd>
         <dt>DIGITAL</dt>
-        <dd> @Html.CheckBox("DIGITAL", new { @class = "form-control" })</dd>
+        <dd> @Html.CheckBox("DIGITAL", DIGITAL, new { @class = "form-control" })</dd>
     </dl>
     <input type="submit" value="Add to Collection" class="btn btn-default btn-secondary" />
 </div>
