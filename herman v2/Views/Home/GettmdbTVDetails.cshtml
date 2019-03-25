@@ -1,0 +1,90 @@
+﻿@model herman_v2.Models.tmdbTVDetails
+@{
+    var dir_name = "";
+    var dir_id = 0;
+
+    foreach (var item in Model.credits.crew)
+    {
+        if (item.job == "Director")
+        {
+            dir_name = item.name;
+            dir_id = item.id;
+        }
+    }
+
+    var rating = "TV";
+
+    var genre = (from g in Model.genres select g).FirstOrDefault();
+
+    var VHS = Convert.ToBoolean(Model.VHS);
+    var DVD = Convert.ToBoolean(Model.DVD);
+    var BLURAY = Convert.ToBoolean(Model.BLURAY);
+    var DIGITAL = Convert.ToBoolean(Model.DIGITAL);
+
+}
+@using (Html.BeginForm("AddVideo", "Home"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>TV Details</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.Hidden("video_id", Model.video_id)
+        @Html.Hidden("tmdb_id", Model.id)
+        @Html.Hidden("imdb_id", 0)
+        @Html.Hidden("Plot", Model.overview)
+        @Html.Hidden("Box_Cover", Model.poster_path)
+        @Html.Hidden("Release_Date", DateTime.Parse(Model.first_air_date).Year)
+        @Html.Hidden("lengthtxt", Model.number_of_episodes)
+        @Html.Hidden("Video_Name", Model.name)
+        @Html.Hidden("ratingtxt", "TV")
+        @Html.Hidden("dir_name", dir_name)
+        @Html.Hidden("category_name", genre.name)
+        @Html.Hidden("Category", genre.id)
+
+        <dl>
+            <dd>
+                <img src="https://image.tmdb.org/t/p/w220_and_h330_face/@Model.poster_path" />
+            </dd>
+            <dt>Title</dt>
+            <dd>
+                @Html.DisplayFor(model => model.name)
+
+            </dd>
+            <dt>Director</dt>
+            <dd>
+                @dir_name
+            </dd>
+            <dt>Year</dt>
+            <dd>
+                @Html.DisplayFor(model => model.first_air_date)
+            </dd>
+            <dt>Runtime</dt>
+            <dd>
+                @Html.DisplayFor(model => model.number_of_episodes)
+                episodes
+            </dd>
+            <dt>Category</dt>
+            <dd>
+                @genre.name
+            </dd>
+            <dt>Rating</dt>
+            <dd>
+                @rating
+            </dd>
+            <dt>Plot</dt>
+            <dd>@Html.DisplayFor(model => model.overview)
+            <dt>VHS</dt>
+            <dd> @Html.CheckBox("VHS", VHS, new { @class = "form-control" })</dd>
+            <dt>DVD</dt>
+            <dd> @Html.CheckBox("DVD", DVD, new { @class = "form-control" })</dd>
+            <dt>BLURAY</dt>
+            <dd> @Html.CheckBox("BLURAY", BLURAY, new { @class = "form-control" })</dd>
+            <dt>DIGITAL</dt>
+            <dd> @Html.CheckBox("DIGITAL", DIGITAL, new { @class = "form-control" })</dd>
+        </dl>
+        <input type="submit" value="Add to Collection" class="btn btn-default btn-secondary" />
+    </div>
+}

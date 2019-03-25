@@ -182,6 +182,8 @@
     <Compile Include="Models\Partialdirector.cs" />
     <Compile Include="Models\tmdbActorDetail.cs" />
     <Compile Include="Models\tmdbActorSearch.cs" />
+    <Compile Include="Models\tmdbTVDetails.cs" />
+    <Compile Include="Models\tmdbTVSearch.cs" />
     <Compile Include="Models\tmdbVideoDetails.cs" />
     <Compile Include="Models\tmdbVideoSearch.cs" />
     <Compile Include="Models\top5s.cs">
@@ -304,6 +306,9 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\VideoDetails.cshtml" />
     <Content Include="Views\Home\ViewDirector.cshtml" />
+    <Content Include="Views\Home\SearchForTV.cshtml" />
+    <Content Include="Views\Home\GettmdbTVDetails.cshtml" />
+    <Content Include="Views\Home\SearchForTVActor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -229,6 +229,14 @@ namespace herman_v2.Controllers
             return View(getdir);
         }
 
+        public List<TVResult> TVSearchResults(string search)
+        {
+            var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/search/tv?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&page=1&include_adult=false&query=" + Url.Encode(search));
+
+            tmdbTVSearch tmdbtvsearch = JsonConvert.DeserializeObject<tmdbTVSearch>(jsonString);
+
+            return tmdbtvsearch.results;
+        }
         public List<tmdbVideoResult> VideoSearchResults(string search)
         {
             var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/search/movie?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&page=1&include_adult=false&query=" + Url.Encode(search));
@@ -240,12 +248,34 @@ namespace herman_v2.Controllers
 
         public tmdbVideoDetails ActorSearchResults(string tmdbid)
         {
+            var jsonString = "";
+
+            //this one is searching the actor api directly
             //var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/search/person?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&page=1&include_adult=false&query=" + Url.Encode(search));
-            var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/movie/" + tmdbid + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=credits");
 
-            var tmdbsearch = JsonConvert.DeserializeObject<tmdbVideoDetails>(jsonString);
+                //this one is searching the movie api
+                jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/movie/" + tmdbid + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=credits");
+                var tmdbVideosearch = JsonConvert.DeserializeObject<tmdbVideoDetails>(jsonString);
 
-            return tmdbsearch;
+                return tmdbVideosearch;
+        }
+
+        public tmdbTVDetails TVActorSearchResults(string tmdbid)
+        {
+            var jsonString = "";
+
+                //this one is searching the tv api
+                jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/tv/" + tmdbid + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=credits");
+                var tmdbTVS = JsonConvert.DeserializeObject<tmdbTVDetails>(jsonString);
+
+                return tmdbTVS;
+            }
+
+        public ActionResult SearchForTV(string search)
+        {
+            var ret = TVSearchResults(search);
+
+            return PartialView(ret);
         }
 
         public ActionResult SearchForVideo(string search)
@@ -255,13 +285,22 @@ namespace herman_v2.Controllers
             return PartialView(ret);
         }
 
-        public ActionResult SearchForActor(string videoid, string tmdbid)
+        public ActionResult SearchForTVActor(string videoid, string tmdbid, string rating)
         {
-            var ret = ActorSearchResults(tmdbid);
+                var ret = TVActorSearchResults(tmdbid);
 
-            ret.video_id = videoid;
+                ret.video_id = videoid;
 
-            return View(ret);
+                return View(ret);
+        }
+
+        public ActionResult SearchForActor(string videoid, string tmdbid, string rating)
+        {
+                var ret = ActorSearchResults(tmdbid);
+
+                ret.video_id = videoid;
+
+                return View(ret);
         }
 
         public tmdbVideoDetails GetTMDBVideoDetailfromApi(string id, int video_id)
@@ -276,9 +315,29 @@ namespace herman_v2.Controllers
             return tmdbsearch;
         }
 
+        public tmdbTVDetails GetTMDBTVDetailfromApi(string id, int video_id)
+        {
+            var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/tv/" + id + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=credits");
+
+            var tmdbsearch = JsonConvert.DeserializeObject<tmdbTVDetails>(jsonString);
+
+            return tmdbsearch;
+        }
+
         public ActionResult GettmdbVideoDetails(string id, int video_id, bool VHS, bool DVD, bool BLURAY, bool DIGITAL)
         {
             var ret = GetTMDBVideoDetailfromApi(id, video_id);
+            ret.video_id = video_id.ToString();
+            ret.VHS = VHS;
+            ret.DVD = DVD;
+            ret.BLURAY = BLURAY;
+            ret.DIGITAL = DIGITAL;
+            return PartialView(ret);
+        }
+
+        public ActionResult GettmdbTVDetails(string id, int video_id, bool VHS, bool DVD, bool BLURAY, bool DIGITAL)
+        {
+            var ret = GetTMDBTVDetailfromApi(id, video_id);
             ret.video_id = video_id.ToString();
             ret.VHS = VHS;
             ret.DVD = DVD;
@@ -409,12 +468,27 @@ namespace herman_v2.Controllers
             {
                 rating = 4;
             }
+            else if (vid.ratingtxt == "TV")
+            {
+                rating = 5;
+            }
             else
             {
                 rating = 1;
             }
 
             int catid = (from c in db.categories where vid.category_name == c.category_name select c.category_id).FirstOrDefault();
+
+            if(catid == 0)
+            {
+                var newcat = new category();
+                newcat.category_id = Convert.ToInt32(vid.Category);
+                newcat.category_name = vid.category_name;
+                db.categories.Add(newcat);
+                db.SaveChanges();
+
+                catid = newcat.category_id;
+            }
 
             var exvid = (from v in db.Videos where v.video_id.ToString() == video_id select v).FirstOrDefault();
 

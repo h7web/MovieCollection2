@@ -25,7 +25,9 @@
         <div class="form-group">
             Step 1: Search Title
             <div class="col-md-10">
-                @Html.TextBox("Search", "", new { @class = "form-control" }) <input type="submit" name="submit" value="Search" class="btn btn-default" onclick="Search4Video(); return false" />
+                @Html.TextBox("Search", "", new { @class = "form-control" })
+                <input type="submit" name="submit" value="Search Movies" class="btn btn-default" onclick="Search4Video(); return false" />
+                <input type="submit" name="submit2" value="Search TV" class="btn btn-default" onclick="Search4TV(); return false" />
             </div>
         </div>
     </div>
@@ -55,9 +57,30 @@
             });
         }
 
-        function GetTMDBVideoDetails(id) {
+        function Search4TV() {
 
-            $.get('@Url.Action("GettmdbVideoDetails")' + '?id=' + id + '&video_id=' + @vid + '&VHS=@Model.VHS.ToString()&DVD=@Model.DVD.ToString()&BLURAY=@Model.BLURAY.ToString()&DIGITAL=@Model.DIGITAL.ToString()' , function (data) {
+            var search = $('input[type="text"][name$="Search"]').val();
+
+            $.get('@Url.Action("SearchForTV")' + '?search=' + search, function (data) {
+                $('#SearchResults').empty();
+                $('#SearchResults').append(data);
+            }).fail(function (jq, stat, err) {
+                alert('Error: ' + err);
+            });
+        }
+
+        function GetTMDBVideoDetails(id) {
+                $.get('@Url.Action("GettmdbVideoDetails")' + '?id=' + id + '&video_id=' + @vid + '&VHS=@Model.VHS.ToString()&DVD=@Model.DVD.ToString()&BLURAY=@Model.BLURAY.ToString()&DIGITAL=@Model.DIGITAL.ToString()' , function (data) {
+                $('#TMDBVideoDetail').empty();
+                $('#TMDBVideoDetail').append(data);
+                $('#SearchResults').empty();
+            }).fail(function (jq, stat, err) {
+                alert('Error: ' + err);
+            });
+        }
+
+            function GetTMDBTVDetails(id) {
+                $.get('@Url.Action("GettmdbTVDetails")' + '?id=' + id + '&video_id=' + @vid + '&VHS=@Model.VHS.ToString()&DVD=@Model.DVD.ToString()&BLURAY=@Model.BLURAY.ToString()&DIGITAL=@Model.DIGITAL.ToString()' , function (data) {
                 $('#TMDBVideoDetail').empty();
                 $('#TMDBVideoDetail').append(data);
                 $('#SearchResults').empty();

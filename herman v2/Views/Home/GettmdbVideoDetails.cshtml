@@ -23,7 +23,7 @@
         }
     }
 
-    var genre = (from g in Model.genres select g.name).FirstOrDefault();
+    var genre = (from g in Model.genres select g).FirstOrDefault();
 
     var VHS = Convert.ToBoolean(Model.VHS);
     var DVD = Convert.ToBoolean(Model.DVD);
@@ -52,7 +52,8 @@
     @Html.Hidden("Video_Name", Model.title)
     @Html.Hidden("ratingtxt", rating)
     @Html.Hidden("dir_name", dir_name)
-    @Html.Hidden("category_name", genre)
+    @Html.Hidden("category_name", genre.name)
+    @Html.Hidden("Category", genre.id)
 
     <dl>
         <dd>
@@ -77,7 +78,7 @@
         </dd>
         <dt>Category</dt>
         <dd>
-            @genre
+            @genre.name
         </dd>
         <dt>Rating</dt>
         <dd>

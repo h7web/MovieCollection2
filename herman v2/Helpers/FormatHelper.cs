@@ -47,6 +47,10 @@
         {
             displayrating = "<img src=http://h7.hopto.org/herman/images/r.jpg />";
         }
+        else if (val == 5)
+        {
+            displayrating = "TV";
+        }
 
         return (displayrating);
     }

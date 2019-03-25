@@ -52,7 +52,15 @@
         </dd>
 
         <dd>
-            @Html.DisplayFor(model => model.length) min
+            @Html.DisplayFor(model => model.length) 
+            @if (Model.rating == 5)
+            {
+                @:episodes
+            }
+            else
+            {
+                @:min
+            }
         </dd>
 
         <dd>
@@ -101,7 +109,14 @@
     {
         if (Model.tmdb_id != null)
         {
-        @Html.ActionLink("Add Actor", "SearchForActor", "Home", new { videoid = Model.video_id, tmdbid = Model.tmdb_id, onclick = "" }, null)
+            if (Model.rating == 5)
+            {
+                @Html.ActionLink("Add Actor", "SearchForTVActor", "Home", new { videoid = Model.video_id, tmdbid = Model.tmdb_id, rating = Model.rating }, null)
+            }
+            else
+            {
+                @Html.ActionLink("Add Actor", "SearchForActor", "Home", new { videoid = Model.video_id, tmdbid = Model.tmdb_id, rating = Model.rating }, null)
+            }
         }
         else
         {
