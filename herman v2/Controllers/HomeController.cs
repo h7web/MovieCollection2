@@ -237,6 +237,7 @@ namespace herman_v2.Controllers
 
             return tmdbtvsearch.results;
         }
+
         public List<tmdbVideoResult> VideoSearchResults(string search)
         {
             var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/search/movie?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&page=1&include_adult=false&query=" + Url.Encode(search));
@@ -403,7 +404,7 @@ namespace herman_v2.Controllers
 
             if (a.actor_id == 0)
             {
-                var actr = (from ac in db.actors where a.actor_name == ac.actor_name || (a.actor_name.Contains(ac.actor_first_name) && a.actor_name.Contains(ac.actor_last_name)) select ac).FirstOrDefault();
+                var actr = (from ac in db.actors where a.actor_name == ac.actor_name || (a.actor_name.Contains(ac.actor_first_name) && a.actor_name.EndsWith(ac.actor_last_name)) select ac).FirstOrDefault();
 
                 if (actr == null)
                 {
