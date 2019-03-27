@@ -309,6 +309,7 @@
     <Content Include="Views\Home\SearchForTV.cshtml" />
     <Content Include="Views\Home\GettmdbTVDetails.cshtml" />
     <Content Include="Views\Home\SearchForTVActor.cshtml" />
+    <Content Include="secret_connections.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
