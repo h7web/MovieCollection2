@@ -7,6 +7,7 @@ using System.Data.Entity.Validation;
 using System.Text.RegularExpressions;
 using herman_v2.Models;
 using System.Collections.Generic;
+using System.Text;
 
 namespace herman_v2.Controllers
 {
@@ -231,7 +232,11 @@ namespace herman_v2.Controllers
 
         public List<TVResult> TVSearchResults(string search)
         {
-            var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/search/tv?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&page=1&include_adult=false&query=" + Url.Encode(search));
+            var client = new WebClient();
+
+            client.Encoding = System.Text.Encoding.UTF8;
+
+            var jsonString = client.DownloadString("https://api.themoviedb.org/3/search/tv?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&page=1&include_adult=false&query=" + Url.Encode(search));
 
             tmdbTVSearch tmdbtvsearch = JsonConvert.DeserializeObject<tmdbTVSearch>(jsonString);
 
@@ -240,7 +245,11 @@ namespace herman_v2.Controllers
 
         public List<tmdbVideoResult> VideoSearchResults(string search)
         {
-            var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/search/movie?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&page=1&include_adult=false&query=" + Url.Encode(search));
+            var client = new WebClient();
+
+            client.Encoding = System.Text.Encoding.UTF8;
+
+            var jsonString = client.DownloadString("https://api.themoviedb.org/3/search/movie?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&page=1&include_adult=false&query=" + Url.Encode(search));
 
             tmdbVideoSearch tmdbvidsearch = JsonConvert.DeserializeObject<tmdbVideoSearch>(jsonString);
 
@@ -249,24 +258,33 @@ namespace herman_v2.Controllers
 
         public tmdbVideoDetails ActorSearchResults(string tmdbid)
         {
+            var client = new WebClient();
+
+            client.Encoding = System.Text.Encoding.UTF8;
+
             var jsonString = "";
 
             //this one is searching the actor api directly
             //var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/search/person?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&page=1&include_adult=false&query=" + Url.Encode(search));
 
                 //this one is searching the movie api
-                jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/movie/" + tmdbid + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=credits");
-                var tmdbVideosearch = JsonConvert.DeserializeObject<tmdbVideoDetails>(jsonString);
+                jsonString = client.DownloadString("https://api.themoviedb.org/3/movie/" + tmdbid + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=credits");
+
+            var tmdbVideosearch = JsonConvert.DeserializeObject<tmdbVideoDetails>(jsonString);
 
                 return tmdbVideosearch;
         }
 
         public tmdbTVDetails TVActorSearchResults(string tmdbid)
         {
+            var client = new WebClient();
+
+            client.Encoding = System.Text.Encoding.UTF8;
+
             var jsonString = "";
 
                 //this one is searching the tv api
-                jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/tv/" + tmdbid + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=credits");
+                jsonString = client.DownloadString("https://api.themoviedb.org/3/tv/" + tmdbid + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=credits");
                 var tmdbTVS = JsonConvert.DeserializeObject<tmdbTVDetails>(jsonString);
 
                 return tmdbTVS;
@@ -306,7 +324,11 @@ namespace herman_v2.Controllers
 
         public tmdbVideoDetails GetTMDBVideoDetailfromApi(string id, int video_id)
         {
-            var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/movie/" + id + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=release_dates,credits");
+            var client = new WebClient();
+
+            client.Encoding = System.Text.Encoding.UTF8;
+
+            string jsonString = client.DownloadString("https://api.themoviedb.org/3/movie/" + id + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=release_dates,credits");
 
             var tmdbsearch = JsonConvert.DeserializeObject<tmdbVideoDetails>(jsonString);
 
@@ -318,7 +340,11 @@ namespace herman_v2.Controllers
 
         public tmdbTVDetails GetTMDBTVDetailfromApi(string id, int video_id)
         {
-            var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/tv/" + id + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=credits");
+            var client = new WebClient();
+
+            client.Encoding = System.Text.Encoding.UTF8;
+
+            var jsonString = client.DownloadString("https://api.themoviedb.org/3/tv/" + id + "?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&append_to_response=credits");
 
             var tmdbsearch = JsonConvert.DeserializeObject<tmdbTVDetails>(jsonString);
 
