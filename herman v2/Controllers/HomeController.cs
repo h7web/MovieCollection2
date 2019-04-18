@@ -500,14 +500,21 @@ namespace herman_v2.Controllers
             {
                 if (vid.Director == 0)
                 {
-                    dir.dir_first_name = vid.dir_name.Substring(0, vid.dir_name.IndexOf(" "));
-                    dir.dir_last_name = (vid.dir_name.Substring((vid.dir_name.IndexOf(" ")), (vid.dir_name.Length - vid.dir_name.IndexOf(" ")))).Trim();
-                    dir.dir_name = vid.dir_name;
+                    if (vid.dir_name == null)
+                    {
+                        vid.Director = 5373;
+                    }
+                    else
+                    {
+                        dir.dir_first_name = vid.dir_name.Substring(0, vid.dir_name.IndexOf(" "));
+                        dir.dir_last_name = (vid.dir_name.Substring((vid.dir_name.IndexOf(" ")), (vid.dir_name.Length - vid.dir_name.IndexOf(" ")))).Trim();
+                        dir.dir_name = vid.dir_name;
 
-                    db.directors.Add(dir);
-                    db.SaveChanges();
+                        db.directors.Add(dir);
+                        db.SaveChanges();
 
-                    vid.Director = dir.dir_id;
+                        vid.Director = dir.dir_id;
+                    }
                 }
             }
 
