@@ -52,8 +52,11 @@
     @Html.Hidden("Video_Name", Model.title)
     @Html.Hidden("ratingtxt", rating)
     @Html.Hidden("dir_name", dir_name)
-    @Html.Hidden("category_name", genre.name)
-    @Html.Hidden("Category", genre.id)
+    @if (genre != null)
+    {
+        @Html.Hidden("category_name", genre.name)
+        @Html.Hidden("Category", genre.id)
+    }
 
     <dl>
         <dd>
@@ -78,8 +81,11 @@
         </dd>
         <dt>Category</dt>
         <dd>
-            @genre.name
-        </dd>
+            @if (genre != null)
+            {
+                @genre.name
+            }
+            </dd>
         <dt>Rating</dt>
         <dd>
             @rating
