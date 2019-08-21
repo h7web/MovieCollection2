@@ -26,22 +26,33 @@
     <dl>
         @foreach (var item in mymovielist)
         {
-            <dd>
-                <a href="@Url.Action("VideoDetails","Home", new { id=item.video_id })">
-                    @item.Release_Date
-                    --
-                    @item.Video_Name
-                    --
-                    @if (item.char_name != null)
-                    {
-                        @item.char_name
-                    }
-                    else
-                    {
-                        @item.char_fullname
-                    }
-                </a>
-            </dd>
+            var getclass = "";
+            var link = "";
+            if(item.inCollection == true)
+            {
+                getclass = "class=font-weight-bold";
+            }
+        <dd @getclass>
+            @if (item.inCollection == true)
+            {
+                link = "href = " + Url.Action("VideoDetails", "Home", new { id = item.video_id });
+            }
+            <a @link>
+                @item.Release_Date
+                --
+                @item.Video_Name
+                @if (item.char_name != null)
+                {
+                    @:--
+                    @item.char_name
+                }
+                else if (item.char_fullname != " ")
+                {
+                    @:--
+                    @item.char_fullname
+                }
+            </a>
+        </dd>
         }
     </dl>
 </div>

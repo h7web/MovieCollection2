@@ -51,7 +51,7 @@ namespace herman_v2.Models
         public List<Result> results { get; set; }
     }
 
-    public class Cast
+    public partial class Cast
     {
         public int cast_id { get; set; }
         public string character { get; set; }

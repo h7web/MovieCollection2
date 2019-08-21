@@ -178,6 +178,7 @@
       <DependentUpon>HermanModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Partialactor.cs" />
+    <Compile Include="Models\PartialCast.cs" />
     <Compile Include="Models\Partialcharacter.cs" />
     <Compile Include="Models\Partialdirector.cs" />
     <Compile Include="Models\tmdbActorDetail.cs" />

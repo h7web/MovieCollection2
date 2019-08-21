@@ -145,3 +145,8 @@ div.navbar {
     min-height: 20px !important;
     background-color:black;
 }
+
+/*in collection*/
+.ic {
+    color:lightgray;
+}

@@ -40,5 +40,7 @@ namespace herman_v2.Models
                 return fullname;
             }
         }
+
+        public bool inCollection { get; set; }
     }
 }

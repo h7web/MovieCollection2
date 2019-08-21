@@ -187,6 +187,13 @@ namespace herman_v2.Controllers
 
         public ActionResult ViewActor(int id)
         {
+
+            var client = new WebClient();
+
+            client.Encoding = System.Text.Encoding.UTF8;
+
+            var jsonString = "";
+
             var getactor = (from a in db.actors
                             where a.actor_id == id
                             select a).SingleOrDefault();
@@ -205,8 +212,44 @@ namespace herman_v2.Controllers
                                      char_mi = c == null ? "" : c.char_mi,
                                      char_last_name = c == null ? "" : c.char_last_name,
                                      char_alias = c == null ? "" : c.char_alias,
-                                     char_name = c.char_name
+                                     char_name = c.char_name,
+                                     inCollection = true
                                  }).ToList();
+
+            jsonString = client.DownloadString("https://api.themoviedb.org/3/person/" + getactor.tmdb_id + "/movie_credits?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US");
+
+            var tmdbVideosearch = JsonConvert.DeserializeObject<Credits>(jsonString);
+
+            foreach (var video in tmdbVideosearch.cast)
+            {
+                ActorVideo av = new ActorVideo();
+
+                av.Video_Name = video.title;
+                if (video.release_date != "" && video.release_date != null)
+                {
+                    av.Release_Date = DateTime.Parse(video.release_date).Year;
+                }
+                av.char_first_name = video.character;
+
+                bool dontown = true;
+
+                foreach (ActorVideo cav in getactor.mymovies)
+                {
+                    if (cav.Video_Name.Equals(video.title))
+                    {
+                        dontown = false;
+                    }
+                }
+
+                if(dontown == true && av.Release_Date != null && av.char_first_name != "himself" && av.char_first_name != "Himself")
+                {
+                    av.inCollection = false;
+                    getactor.mymovies.Add(av);
+                }
+
+            }
+
+            getactor.mymovies = getactor.mymovies.OrderByDescending(m => m.Release_Date).ToList();
 
             return View(getactor);
         }
