@@ -10,19 +10,25 @@
 <div>
     <dl>
         <dd>
-            <img src=https://image.tmdb.org/t/p/w90_and_h90_face/@Model.actor_photo class=actor />
-            @if (Model.actor_name != null)
-            {
-                @Html.DisplayFor(model => model.actor_name)
-            }
-            else
-            {
-                @Html.DisplayFor(model => model.actor_fullname)
-            }
+            <img src=https://image.tmdb.org/t/p/w90_and_h90_face/@Model.actor_photo class="actor actor-main" />
+            <span id="actor-name">
+                @if (Model.actor_name != null)
+                {
+                    @Html.DisplayFor(model => model.actor_name)
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.actor_fullname)
+                }
+            </span>
+            <span id="counts">
+                <b>@Model.FilmCount</b> Films
+                <b>@Model.CollectionCount</b> in Collection
+            </span>
         </dd>
     </dl>
 </div>
-<div>
+<div id="movie-list">
     <dl>
         @foreach (var item in mymovielist)
         {

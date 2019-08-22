@@ -31,5 +31,9 @@ namespace herman_v2.Models
                 return fullname;
             }
         }
+
+        public int CollectionCount { get; set; }
+
+        public int FilmCount { get; set; }
     }
 }

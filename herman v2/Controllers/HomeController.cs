@@ -216,6 +216,8 @@ namespace herman_v2.Controllers
                                      inCollection = true
                                  }).ToList();
 
+            getactor.CollectionCount = getactor.mymovies.Count();
+
             jsonString = client.DownloadString("https://api.themoviedb.org/3/person/" + getactor.tmdb_id + "/movie_credits?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US");
 
             var tmdbVideosearch = JsonConvert.DeserializeObject<Credits>(jsonString);
@@ -241,7 +243,7 @@ namespace herman_v2.Controllers
                     }
                 }
 
-                if(dontown == true && av.Release_Date != null && av.char_first_name != "himself" && av.char_first_name != "Himself")
+                if(dontown == true && av.Release_Date != null && !av.char_first_name.Contains("imself"))
                 {
                     av.inCollection = false;
                     getactor.mymovies.Add(av);
@@ -250,6 +252,8 @@ namespace herman_v2.Controllers
             }
 
             getactor.mymovies = getactor.mymovies.OrderByDescending(m => m.Release_Date).ToList();
+
+            getactor.FilmCount = getactor.mymovies.Count();
 
             return View(getactor);
         }

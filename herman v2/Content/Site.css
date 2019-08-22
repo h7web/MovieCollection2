@@ -150,3 +150,21 @@ div.navbar {
 .ic {
     color:lightgray;
 }
+
+.actor-main{
+    float:left;
+}
+
+#actor-name{
+    padding-top:2em;
+    display:block;
+}
+
+#counts {
+
+}
+
+#movie-list{
+    padding-top:1.5em;
+    clear:both;
+}
