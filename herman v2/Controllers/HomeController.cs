@@ -243,10 +243,13 @@ namespace herman_v2.Controllers
                     }
                 }
 
-                if(dontown == true && av.Release_Date != null && !av.char_first_name.Contains("imself"))
+                if (dontown == true && av.Release_Date != null && av.char_first_name != null)
                 {
-                    av.inCollection = false;
-                    getactor.mymovies.Add(av);
+                    if (!av.char_first_name.Contains("self"))
+                    {
+                        av.inCollection = false;
+                        getactor.mymovies.Add(av);
+                    }
                 }
 
             }
